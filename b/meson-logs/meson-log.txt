@@ -1,0 +1,48 @@
+Build started at 2018-09-30T15:40:36.363293
+Main binary: /usr/bin/python
+Python system: Linux
+The Meson build system
+Version: 0.48.0
+Source dir: /home/joao/workspace/tmp2/meson_test
+Build dir: /home/joao/workspace/tmp2/meson_test/b
+Build type: cross build
+Project name: tutorial
+Project version: undefined
+Native C compiler: cc (gcc 8.2.1 "cc (GCC) 8.2.1 20180831")
+Cross C compiler: i686-w64-mingw32-gcc (gcc 8.2.0)
+Native C++ compiler: c++ (gcc 8.2.1 "c++ (GCC) 8.2.1 20180831")
+Cross C++ compiler: i686-w64-mingw32-g++ (gcc 8.2.0)
+Host machine cpu family: x86
+Host machine cpu: x86
+Target machine cpu family: x86
+Target machine cpu: x86
+Build machine cpu family: x86_64
+Build machine cpu: x86_64
+Build targets in project: 2
+Found ninja-1.8.2 at /usr/bin/ninja
+Running compile:
+Working directory:  /tmp/tmpbd6ohpu3
+Command line:  i686-w64-mingw32-g++ /tmp/tmpbd6ohpu3/testfile.cpp -pipe -c -o /tmp/tmpbd6ohpu3/output.obj -Wno-non-virtual-dtor -O0 -fpermissive --print-search-dirs 
+
+Code:
+ 
+Compiler stdout:
+ install: /usr/lib/gcc/i686-w64-mingw32/8.2.0/
+programs: =/usr/lib/gcc/i686-w64-mingw32/8.2.0/:/usr/lib/gcc/i686-w64-mingw32/8.2.0/:/usr/lib/gcc/i686-w64-mingw32/:/usr/lib/gcc/i686-w64-mingw32/8.2.0/:/usr/lib/gcc/i686-w64-mingw32/:/usr/lib/gcc/i686-w64-mingw32/8.2.0/../../../../i686-w64-mingw32/bin/i686-w64-mingw32/8.2.0/:/usr/lib/gcc/i686-w64-mingw32/8.2.0/../../../../i686-w64-mingw32/bin/
+libraries: =/usr/lib/gcc/i686-w64-mingw32/8.2.0/:/usr/lib/gcc/i686-w64-mingw32/8.2.0/../../../../i686-w64-mingw32/lib/i686-w64-mingw32/8.2.0/:/usr/lib/gcc/i686-w64-mingw32/8.2.0/../../../../i686-w64-mingw32/lib/../lib/:/usr/lib/gcc/i686-w64-mingw32/8.2.0/../../../../i686-w64-mingw32/lib/
+
+Compiler stderr:
+ 
+Running compile:
+Working directory:  /tmp/tmpe0hzr2z7
+Command line:  i686-w64-mingw32-gcc /tmp/tmpe0hzr2z7/testfile.c -pipe -c -o /tmp/tmpe0hzr2z7/output.obj -O0 --print-search-dirs 
+
+Code:
+ 
+Compiler stdout:
+ install: /usr/lib/gcc/i686-w64-mingw32/8.2.0/
+programs: =/usr/lib/gcc/i686-w64-mingw32/8.2.0/:/usr/lib/gcc/i686-w64-mingw32/8.2.0/:/usr/lib/gcc/i686-w64-mingw32/:/usr/lib/gcc/i686-w64-mingw32/8.2.0/:/usr/lib/gcc/i686-w64-mingw32/:/usr/lib/gcc/i686-w64-mingw32/8.2.0/../../../../i686-w64-mingw32/bin/i686-w64-mingw32/8.2.0/:/usr/lib/gcc/i686-w64-mingw32/8.2.0/../../../../i686-w64-mingw32/bin/
+libraries: =/usr/lib/gcc/i686-w64-mingw32/8.2.0/:/usr/lib/gcc/i686-w64-mingw32/8.2.0/../../../../i686-w64-mingw32/lib/i686-w64-mingw32/8.2.0/:/usr/lib/gcc/i686-w64-mingw32/8.2.0/../../../../i686-w64-mingw32/lib/../lib/:/usr/lib/gcc/i686-w64-mingw32/8.2.0/../../../../i686-w64-mingw32/lib/
+
+Compiler stderr:
+ 

@@ -1,0 +1,17 @@
+[
+  {
+    "directory": "/home/joao/workspace/tmp2/meson_test/b",
+    "command": "i686-w64-mingw32-g++ -Ifftest@exe -I. -I.. -fdiagnostics-color=always -pipe -Wall -Winvalid-pch -Wnon-virtual-dtor -g -Wno-non-virtual-dtor -MD -MQ 'fftest@exe/main.cpp.obj' -MF 'fftest@exe/main.cpp.obj.d' -o 'fftest@exe/main.cpp.obj' -c ../main.cpp",
+    "file": "../main.cpp"
+  },
+  {
+    "directory": "/home/joao/workspace/tmp2/meson_test/b",
+    "command": "i686-w64-mingw32-g++ -Ifftest@exe -I. -I.. -fdiagnostics-color=always -pipe -Wall -Winvalid-pch -Wnon-virtual-dtor -g -Wno-non-virtual-dtor -MD -MQ 'fftest@exe/rf2Effect.cpp.obj' -MF 'fftest@exe/rf2Effect.cpp.obj.d' -o 'fftest@exe/rf2Effect.cpp.obj' -c ../rf2Effect.cpp",
+    "file": "../rf2Effect.cpp"
+  },
+  {
+    "directory": "/home/joao/workspace/tmp2/meson_test/b",
+    "command": "i686-w64-mingw32-gcc -IFFOne@sha -I. -I.. -fdiagnostics-color=always -pipe -Wall -Winvalid-pch -g  -MD -MQ 'FFOne@sha/FFOnePlugin.c.obj' -MF 'FFOne@sha/FFOnePlugin.c.obj.d' -o 'FFOne@sha/FFOnePlugin.c.obj' -c ../FFOnePlugin.c",
+    "file": "../FFOnePlugin.c"
+  }
+]
