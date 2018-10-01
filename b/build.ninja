@@ -127,10 +127,10 @@ build FFOne@sha/FFOnePlugin.cpp.obj: cpp_CROSS_COMPILER ../FFOnePlugin.cpp
  DEPFILE = FFOne@sha/FFOnePlugin.cpp.obj.d
  ARGS = -IFFOne@sha -I. -I.. -fdiagnostics-color=always -pipe -Wall -Winvalid-pch -Wnon-virtual-dtor -g
 
-build FFOne@sha/libFFOne.dll.symbols: SHSYM libFFOne.dll
+build FFOne@sha/FFOne.dll.symbols: SHSYM FFOne.dll
  CROSS = --cross-host=windows
 
-build libFFOne.dll: cpp_CROSS_LINKER FFOne@sha/FFOnePlugin.cpp.obj | /usr/i686-w64-mingw32/lib/libkernel32.a /usr/i686-w64-mingw32/lib/libuser32.a /usr/i686-w64-mingw32/lib/libgdi32.a /usr/i686-w64-mingw32/lib/libwinspool.a /usr/i686-w64-mingw32/lib/libshell32.a /usr/i686-w64-mingw32/lib/libole32.a /usr/i686-w64-mingw32/lib/liboleaut32.a /usr/i686-w64-mingw32/lib/libuuid.a /usr/i686-w64-mingw32/lib/libcomdlg32.a /usr/i686-w64-mingw32/lib/libadvapi32.a
+build FFOne.dll: cpp_CROSS_LINKER FFOne@sha/FFOnePlugin.cpp.obj | /usr/i686-w64-mingw32/lib/libkernel32.a /usr/i686-w64-mingw32/lib/libuser32.a /usr/i686-w64-mingw32/lib/libgdi32.a /usr/i686-w64-mingw32/lib/libwinspool.a /usr/i686-w64-mingw32/lib/libshell32.a /usr/i686-w64-mingw32/lib/libole32.a /usr/i686-w64-mingw32/lib/liboleaut32.a /usr/i686-w64-mingw32/lib/libuuid.a /usr/i686-w64-mingw32/lib/libcomdlg32.a /usr/i686-w64-mingw32/lib/libadvapi32.a
  LINK_ARGS = -Wl,--no-undefined -Wl,--as-needed -shared -Wl,--start-group -Wl,--out-implib=libFFOne.dll.a -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 -Wl,--end-group
 
 # Test rules
@@ -179,7 +179,7 @@ build meson-uninstall: CUSTOM_COMMAND PHONY
 
 build uninstall: phony meson-uninstall
 
-build all: phony fftest.exe libFFOne.dll
+build all: phony fftest.exe FFOne.dll
 
 default all
 
