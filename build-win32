@@ -7,8 +7,8 @@ exe_wrapper = 'wine'
 
 [properties]
 c_link_args = ['-static', '-static-libgcc']
-cpp_link_args = ['-static', '-static-libgcc', '-static-libstdc++', '-Wl,--add-stdcall-alias,--enable-stdcall-fixup,--subsystem,windows', '-ldinput8', '-ldinput', '-ldxguid']
-cpp_args = ['-Wno-non-virtual-dtor']
+cpp_link_args = ['-mabi=ms', '-static', '-static-libgcc', '-static-libstdc++', '-Wl,--add-stdcall-alias,--enable-stdcall-fixup,--subsystem,windows', '-ldinput8', '-ldinput', '-ldxguid']
+cpp_args = ['-Wno-non-virtual-dtor', '-mabi=ms']
 
 [host_machine]
 system = 'windows'
