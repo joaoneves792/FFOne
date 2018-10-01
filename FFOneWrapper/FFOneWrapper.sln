@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FFOneWrapper", "FFOneWrapper\FFOneWrapper.vcxproj", "{3C97D38E-F5BB-4859-B38E-6C6513F679D6}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FFOne", "FFOne\FFOne.vcxproj", "{ADC4DE23-2410-437F-AC4B-4A5492E5EC14}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3C97D38E-F5BB-4859-B38E-6C6513F679D6}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3C97D38E-F5BB-4859-B38E-6C6513F679D6}.Debug|Win32.Build.0 = Debug|Win32
+		{3C97D38E-F5BB-4859-B38E-6C6513F679D6}.Release|Win32.ActiveCfg = Release|Win32
+		{3C97D38E-F5BB-4859-B38E-6C6513F679D6}.Release|Win32.Build.0 = Release|Win32
+		{ADC4DE23-2410-437F-AC4B-4A5492E5EC14}.Debug|Win32.ActiveCfg = Debug|Win32
+		{ADC4DE23-2410-437F-AC4B-4A5492E5EC14}.Debug|Win32.Build.0 = Debug|Win32
+		{ADC4DE23-2410-437F-AC4B-4A5492E5EC14}.Release|Win32.ActiveCfg = Release|Win32
+		{ADC4DE23-2410-437F-AC4B-4A5492E5EC14}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

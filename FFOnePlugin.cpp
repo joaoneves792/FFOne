@@ -2,15 +2,21 @@
 // Created by joao on 9/30/18.
 //
 
-#include "PluginObjects.h"
-#include "InternalsPlugin.h"
-#include "FFOnePlugin.h"
-#include <cstdio>                  // for logging
-
+/*#include "PluginObjects.h"
+#include "InternalsPlugin.h"*/
+//#include "FFOnePlugin.h"
+//#include <cstdio>                  // for logging
+//#include <windows.h>
 // plugin information
 
 
+extern "C"{
+      	__declspec( dllexport )
+	void __cdecl Startup(){ }
+}
 
+
+/*
 extern "C" __declspec( dllexport )
 const char * __cdecl GetPluginName()                   { return( "FFOne - 2008.02.13" ); }
 
@@ -99,3 +105,4 @@ void FFOnePlugin::StartSession() {
 void FFOnePlugin::EndSession(){
 
 }
+*/
