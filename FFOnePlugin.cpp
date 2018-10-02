@@ -2,18 +2,52 @@
 // Created by joao on 9/30/18.
 //
 
-/*#include "PluginObjects.h"
-#include "InternalsPlugin.h"*/
+#include "PluginObjects.h"
+#include "InternalsPlugin.h"
 //#include "FFOnePlugin.h"
-//#include <cstdio>                  // for logging
+#include <cstdio>                  // for logging
 //#include <windows.h>
 // plugin information
 
+
+FILE* g_logFile = nullptr;
+char* g_logPath = nullptr;
 
 extern "C"{
       	__declspec( dllexport )
 	void __cdecl Startup(){ }
 }
+
+
+extern "C" __declspec( dllexport )
+void __cdecl SetEnvironment(void* info){
+	EnvironmentInfoV01* env = (EnvironmentInfoV01*)info;
+	size_t pathLen = strlen( env->mPath[ 0 ] ) + 1;
+	if(!g_logPath){
+		g_logPath = new char[ pathLen ];
+		strcpy_s( g_logPath, pathLen, env->mPath[ 0 ] );
+	}
+	if(!g_logFile && g_logPath){
+		pathLen = strlen( g_logPath );
+		if( pathLen > 0 ){
+			const size_t fullLen = pathLen + 50;
+			char *fullpath = new char[ fullLen ];
+			strcpy_s( fullpath, fullLen, g_logPath );
+			if( fullpath[ pathLen - 1 ] != '\\' )
+				strcat_s( fullpath, fullLen, "\\" );
+			strcat_s( fullpath, fullLen, "Log\\FFOneSecondStage.txt" );
+
+			fopen_s( &g_logFile, fullpath, "w" );
+			delete [] fullpath;
+		}
+	}
+
+	if(g_logFile != NULL) {
+		fprintf(g_logFile, "\n--- FFONE 2nd stage started ---\n");
+	}
+
+}
+
 
 
 /*
