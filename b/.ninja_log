@@ -54,3 +54,9 @@
 1	989	1538469947	FFOne@sha/FFOnePlugin.cpp.obj	aaa3230364581d99
 989	1105	1538469947	FFOne.dll	e4056580a33b37d9
 0	22	0	meson-clean	d59b6dac04fa9b5d
+32	1442	1538515225	FFOne@sha/FFOnePlugin.cpp.obj	aaa3230364581d99
+1442	1665	1538515225	FFOne.dll	e4056580a33b37d9
+32	2076	1538515226	fftest@exe/main.cpp.obj	b3b9369db072680c
+32	2085	1538515226	fftest@exe/rf2Effect.cpp.obj	8ddbea62a1359180
+2085	2936	1538515227	fftest.exe	9fd214f75f02aa3b
+0	8	0	meson-clean	d59b6dac04fa9b5d

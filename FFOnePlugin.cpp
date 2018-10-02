@@ -35,7 +35,7 @@ void __cdecl SetEnvironment(void* info){
 			strcpy_s( fullpath, fullLen, g_logPath );
 			if( fullpath[ pathLen - 1 ] != '\\' )
 				strcat_s( fullpath, fullLen, "\\" );
-			strcat_s( fullpath, fullLen, "Log\\FFOneSecondStage.txt" );
+			strcat_s( fullpath, fullLen, "Log\\HELLO.txt" );
 
 			fopen_s( &g_logFile, fullpath, "w" );
 			delete [] fullpath;
@@ -43,7 +43,7 @@ void __cdecl SetEnvironment(void* info){
 	}
 
 	if(g_logFile != NULL) {
-		fprintf(g_logFile, "\n--- FFONE 2nd stage started ---\n");
+		fprintf(g_logFile, "\n--- FFTWO ---\n");
 	}
 
 }

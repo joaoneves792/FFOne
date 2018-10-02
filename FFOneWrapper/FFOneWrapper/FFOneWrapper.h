@@ -17,6 +17,8 @@ typedef __declspec(dllimport) void (__cdecl *exUpdateTelemetry)(const void*);
 typedef __declspec(dllimport) void (__cdecl *exUpdateGraphics)(const void*);
 typedef __declspec(dllimport) void (__cdecl *exSetEnvironment)(const void*);
 
+#define MAX_PLUGINS 10
+
 class FFOneWrapper: public InternalsPluginV07{
 private:
 	// logging
@@ -26,24 +28,22 @@ private:
 	
 
 	//Second stage module
-	char* _modulePath;
-	HINSTANCE _secondaryModule;
-	bool _loadSuccessfull;
-	bool _loadAttempted;
-	
-	exStartup _exStartup;
-	exShutdown _exShutdown;
-	exLoad _exLoad;
-	exUnload _exUnload;
-	exStartSession _exStartSession;
-	exEndSession _exEndSession;
-	exEnterRealtime _exEnterRealtime;
-	exExitRealtime _exExitRealtime;
+	wchar_t* _moduleNames[MAX_PLUGINS];
+	HINSTANCE _secondaryModule[MAX_PLUGINS];
 
-	exUpdateScoring _exUpdateScoring;
-	exUpdateTelemetry _exUpdateTelemetry;
-	exUpdateGraphics _exUpdateGraphics;
-	exSetEnvironment _exSetEnvironment;
+	exStartup _exStartup[MAX_PLUGINS];
+	exShutdown _exShutdown[MAX_PLUGINS];
+	exLoad _exLoad[MAX_PLUGINS];
+	exUnload _exUnload[MAX_PLUGINS];
+	exStartSession _exStartSession[MAX_PLUGINS];
+	exEndSession _exEndSession[MAX_PLUGINS];
+	exEnterRealtime _exEnterRealtime[MAX_PLUGINS];
+	exExitRealtime _exExitRealtime[MAX_PLUGINS];
+
+	exUpdateScoring _exUpdateScoring[MAX_PLUGINS];
+	exUpdateTelemetry _exUpdateTelemetry[MAX_PLUGINS];
+	exUpdateGraphics _exUpdateGraphics[MAX_PLUGINS];
+	exSetEnvironment _exSetEnvironment[MAX_PLUGINS];
 
 public:
 	FFOneWrapper(void);
