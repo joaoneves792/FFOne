@@ -38,9 +38,9 @@ private:
     void recomputeDirection();
 public:
     rf2Effect(LPDIRECTINPUTDEVICE8 dev);
-    void setRPM(int rpm, int max);
-    void slideWhel(UCHAR wheel);
-    void unslideWheel(UCHAR wheel);
+    ~rf2Effect();
+    void setRPM(double rpm, double max);
+    void slideWheels(UCHAR wheels);
     int play();
     int stop();
 };

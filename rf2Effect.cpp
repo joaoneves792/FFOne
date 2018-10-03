@@ -1,20 +1,24 @@
 //
 // Created by joao on 9/28/18.
 //
-#include <iostream>
-
+#include <windows.h>
 #include "rf2Effect.h"
 #define DIRECTINPUT_VERSION 0x0800
 #include "dinput.h"
 
 int rf2Effect::play() {
-    recomputeDirection();
-    if(slidingWheels)
-        peff.dwMagnitude = WHEEL_MAGNITUDE;
-    else
-        peff.dwMagnitude = engineMagnitude;
-    return FAILED(self->SetParameters( &eff, DIEP_DIRECTION | DIEP_TYPESPECIFICPARAMS | DIEP_START | DIEP_DURATION ));
-    //return 0;
+    static DWORD lastTime = 0;
+    DWORD curTime = GetTickCount();
+    if((curTime-lastTime) > 25) {
+        lastTime = curTime;
+        recomputeDirection();
+        if (slidingWheels)
+            peff.dwMagnitude = WHEEL_MAGNITUDE;
+        else
+            peff.dwMagnitude = engineMagnitude;
+        FAILED(self->SetParameters(&eff, DIEP_DIRECTION | DIEP_TYPESPECIFICPARAMS | DIEP_START | DIEP_DURATION));
+    }
+    return 0;
 }
 
 int rf2Effect::stop() {
@@ -49,8 +53,15 @@ rf2Effect::rf2Effect(LPDIRECTINPUTDEVICE8 dev) {
     FAILED(dev->CreateEffect( GUID_Sine, &eff, &self, nullptr ) );
 }
 
-void rf2Effect::setRPM(int rpm, int max) {
-    double p = ((double)rpm/(double)max);
+rf2Effect::~rf2Effect() {
+    if(self){
+        (self)->Release();
+        (self)=nullptr;
+    }
+}
+
+void rf2Effect::setRPM(double rpm, double max) {
+    double p = rpm/max;
     DWORD magnitude = (DWORD )(p*ENGINE_MAX_MAG);
     engineMagnitude = (magnitude>ENGINE_MIN_MAG)?magnitude:ENGINE_MIN_MAG;
 }
@@ -93,9 +104,6 @@ void rf2Effect::recomputeDirection() {
     rglDirection[0] = B_ANGLE;
 }
 
-void rf2Effect::slideWhel(UCHAR wheel) {
-    slidingWheels = slidingWheels | wheel;
-}
-void rf2Effect::unslideWheel(UCHAR wheel) {
-    slidingWheels = slidingWheels ^ wheel;
+void rf2Effect::slideWheels(UCHAR wheels) {
+    slidingWheels = wheels;
 }

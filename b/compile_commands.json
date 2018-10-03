@@ -13,5 +13,10 @@
     "directory": "/home/joao/workspace/FFOne/b",
     "command": "i686-w64-mingw32-g++ -IFFOne@sha -I. -I.. -fdiagnostics-color=always -pipe -Wall -Winvalid-pch -Wnon-virtual-dtor -g -Wno-non-virtual-dtor -mabi=ms -MD -MQ 'FFOne@sha/FFOnePlugin.cpp.obj' -MF 'FFOne@sha/FFOnePlugin.cpp.obj.d' -o 'FFOne@sha/FFOnePlugin.cpp.obj' -c ../FFOnePlugin.cpp",
     "file": "../FFOnePlugin.cpp"
+  },
+  {
+    "directory": "/home/joao/workspace/FFOne/b",
+    "command": "i686-w64-mingw32-g++ -IFFOne@sha -I. -I.. -fdiagnostics-color=always -pipe -Wall -Winvalid-pch -Wnon-virtual-dtor -g -Wno-non-virtual-dtor -mabi=ms -MD -MQ 'FFOne@sha/rf2Effect.cpp.obj' -MF 'FFOne@sha/rf2Effect.cpp.obj.d' -o 'FFOne@sha/rf2Effect.cpp.obj' -c ../rf2Effect.cpp",
+    "file": "../rf2Effect.cpp"
   }
 ]

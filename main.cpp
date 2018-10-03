@@ -223,7 +223,7 @@ int main(int argc, char **argv) {
 	auto ff = new rf2Effect(g_pDevice);
 	int rpm=2000;
 	for(int i=0; i<9;){
-    	rpm=rpm+50;
+    	rpm=rpm+10;
     	if(rpm>12000) {
 			rpm = 2000;
 			ff->stop();
@@ -232,49 +232,42 @@ int main(int argc, char **argv) {
 			switch (i) {
 				case 1:
 					std::cout << "FL" << std::endl;
-					ff->slideWhel(W_FL);
+					ff->slideWheels(W_FL);
                     rpm=rpm+100;
 					break;
 				case 2:
 					std::cout << "FR" << std::endl;
-					ff->unslideWheel(W_FL);
-					ff->slideWhel(W_FR);
+					ff->slideWheels(W_FR);
                     rpm=rpm+100;
 					break;
 				case 3:
 					std::cout << "RL" << std::endl;
-					ff->unslideWheel(W_FR);
-					ff->slideWhel(W_RL);
+					ff->slideWheels(W_RL);
                     rpm=rpm+100;
 					break;
 				case 4:
 					std::cout << "RR" << std::endl;
-					ff->unslideWheel(W_RL);
-					ff->slideWhel(W_RR);
+					ff->slideWheels(W_RR);
                     rpm=rpm+100;
 					break;
 				case 5:
 					std::cout << "F" << std::endl;
-					ff->unslideWheel(W_RR);
-					ff->slideWhel(W_FL | W_FR);
+					ff->slideWheels(W_FL | W_FR);
 					rpm=rpm+100;
 					break;
 				case 6:
 					std::cout << "R" << std::endl;
-					ff->unslideWheel(W_FL | W_FR);
-					ff->slideWhel(W_RL | W_RR);
+					ff->slideWheels(W_RL | W_RR);
 					rpm=rpm+100;
 					break;
 				case 7:
 					std::cout << "L" << std::endl;
-					ff->unslideWheel(W_RL | W_RR);
-					ff->slideWhel(W_FL | W_RL);
+					ff->slideWheels(W_FL | W_RL);
 					rpm=rpm+100;
 					break;
 				case 8:
 					std::cout << "R" << std::endl;
-					ff->unslideWheel(W_FL | W_RL);
-					ff->slideWhel(W_FR | W_RR);
+					ff->slideWheels(W_FR | W_RR);
 					rpm=rpm+100;
 					break;
 				default:
@@ -283,7 +276,7 @@ int main(int argc, char **argv) {
 		}
 		ff->setRPM(rpm, 12000);
     	ff->play();
-    	Sleep(25); //Below 25 we get errors!
+    	Sleep(5); //Below 25 we get errors!
 	}
 
 
