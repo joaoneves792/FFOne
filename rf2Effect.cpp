@@ -12,8 +12,9 @@ int rf2Effect::play() {
     if((curTime-lastTime) > 25) {
         lastTime = curTime;
         recomputeDirection();
+        DWORD slideMagnitude = enginePercent*(slideFactor*WHEEL_MAGNITUDE);
         if (slidingWheels)
-            peff.dwMagnitude = WHEEL_MAGNITUDE;
+            peff.dwMagnitude = slideMagnitude;
         else
             peff.dwMagnitude = engineMagnitude;
         FAILED(self->SetParameters(&eff, DIEP_DIRECTION | DIEP_TYPESPECIFICPARAMS | DIEP_START | DIEP_DURATION));
@@ -61,9 +62,10 @@ rf2Effect::~rf2Effect() {
 }
 
 void rf2Effect::setRPM(double rpm, double max) {
-    double p = rpm/max;
-    DWORD magnitude = (DWORD )(p*ENGINE_MAX_MAG);
+    enginePercent = rpm/max;
+    DWORD magnitude = (DWORD )(enginePercent*ENGINE_MAX_MAG);
     engineMagnitude = (magnitude>ENGINE_MIN_MAG)?magnitude:ENGINE_MIN_MAG;
+    enginePercent = (magnitude>ENGINE_MIN_MAG)?enginePercent:(ENGINE_MIN_MAG/ENGINE_MAX_MAG);
 }
 
 void rf2Effect::recomputeDirection() {
@@ -104,6 +106,7 @@ void rf2Effect::recomputeDirection() {
     rglDirection[0] = B_ANGLE;
 }
 
-void rf2Effect::slideWheels(UCHAR wheels) {
+void rf2Effect::slideWheels(UCHAR wheels, double factor) {
     slidingWheels = wheels;
+    slideFactor = factor;
 }

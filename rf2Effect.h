@@ -33,6 +33,8 @@ protected:
     LPDIRECTINPUTEFFECT self;
     DWORD engineMagnitude = 0;
     UCHAR slidingWheels = 0x0;
+    double slideFactor = 0.0f;
+    double enginePercent = 0.0f;
 private:
     void loadDefaults();
     void recomputeDirection();
@@ -40,7 +42,7 @@ public:
     rf2Effect(LPDIRECTINPUTDEVICE8 dev);
     ~rf2Effect();
     void setRPM(double rpm, double max);
-    void slideWheels(UCHAR wheels);
+    void slideWheels(UCHAR wheels, double factor);
     int play();
     int stop();
 };

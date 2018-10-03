@@ -14,16 +14,7 @@
       <change beforePath="$PROJECT_DIR$/FFOnePlugin.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/FFOnePlugin.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/b/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/b/.ninja_deps" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/b/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/b/.ninja_log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/b/build.ninja" beforeDir="false" afterPath="$PROJECT_DIR$/b/build.ninja" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/b/compile_commands.json" beforeDir="false" afterPath="$PROJECT_DIR$/b/compile_commands.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/b/meson-logs/meson-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/b/meson-logs/meson-log.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/b/meson-private/build.dat" beforeDir="false" afterPath="$PROJECT_DIR$/b/meson-private/build.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/b/meson-private/coredata.dat" beforeDir="false" afterPath="$PROJECT_DIR$/b/meson-private/coredata.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/b/meson-private/coredata.dat.prev" beforeDir="false" afterPath="$PROJECT_DIR$/b/meson-private/coredata.dat.prev" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/b/meson-private/sanitycheckc_cross.exe" beforeDir="false" afterPath="$PROJECT_DIR$/b/meson-private/sanitycheckc_cross.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/b/meson-private/sanitycheckcpp_cross.exe" beforeDir="false" afterPath="$PROJECT_DIR$/b/meson-private/sanitycheckcpp_cross.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/meson.build" beforeDir="false" afterPath="$PROJECT_DIR$/meson.build" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rf2Effect.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/rf2Effect.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rf2Effect.h" beforeDir="false" afterPath="$PROJECT_DIR$/rf2Effect.h" afterDir="false" />
     </list>
@@ -72,34 +63,34 @@
     <session id="730668280">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="3" />
+          <entry key="project.closed" value="4" />
           <entry key="project.open.time.1" value="1" />
-          <entry key="project.open.time.10" value="1" />
+          <entry key="project.open.time.10" value="2" />
           <entry key="project.open.time.7" value="1" />
           <entry key="project.open.time.8" value="1" />
-          <entry key="project.opened" value="4" />
+          <entry key="project.opened" value="5" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="cpp" value="6" />
-          <entry key="h" value="5" />
+          <entry key="cpp" value="7" />
+          <entry key="h" value="6" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="ObjectiveC" value="11" />
+          <entry key="ObjectiveC" value="13" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="cpp" value="2978" />
-          <entry key="h" value="77" />
+          <entry key="cpp" value="4046" />
+          <entry key="h" value="156" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="ObjectiveC" value="3055" />
+          <entry key="ObjectiveC" value="4202" />
         </counts>
       </usages-collector>
     </session>
@@ -118,11 +109,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/FFOnePlugin.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="608">
-              <caret line="200" column="51" selection-start-line="200" selection-start-column="51" selection-end-line="200" selection-end-column="51" />
-              <folding>
-                <element signature="e#179#198#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="656">
+              <caret line="202" column="32" selection-start-line="202" selection-start-column="32" selection-end-line="202" selection-end-column="32" />
             </state>
           </provider>
         </entry>
@@ -130,8 +118,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/rf2Effect.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="683">
-              <caret line="107" column="26" selection-start-line="107" selection-start-column="26" selection-end-line="107" selection-end-column="26" />
+            <state relative-caret-position="210">
+              <caret line="14" column="45" selection-start-line="14" selection-start-column="45" selection-end-line="14" selection-end-column="45" />
             </state>
           </provider>
         </entry>
@@ -139,8 +127,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/rf2Effect.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="630">
-              <caret line="42" column="33" selection-start-line="42" selection-start-column="33" selection-end-line="42" selection-end-column="33" />
+            <state relative-caret-position="540">
+              <caret line="36" column="32" selection-start-line="36" selection-start-column="32" selection-end-line="36" selection-end-column="32" />
             </state>
           </provider>
         </entry>
@@ -149,7 +137,7 @@
         <entry file="file://$PROJECT_DIR$/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="660">
-              <caret line="269" column="36" selection-start-line="269" selection-start-column="36" selection-end-line="269" selection-end-column="36" />
+              <caret line="269" column="52" selection-start-line="269" selection-start-column="52" selection-end-line="269" selection-end-column="52" />
             </state>
           </provider>
         </entry>
@@ -157,7 +145,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/FFOneWrapper/FFOneWrapper/FFOneWrapper.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-172">
+            <state relative-caret-position="150">
               <caret line="10" column="33" selection-start-line="10" selection-start-column="33" selection-end-line="10" selection-end-column="33" />
             </state>
           </provider>
@@ -208,7 +196,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -231,6 +218,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -267,18 +255,19 @@
       <workItem from="1538345199119" duration="524000" />
       <workItem from="1538469276895" duration="949000" />
       <workItem from="1538493305108" duration="959000" />
-      <workItem from="1538574209649" duration="15756000" />
+      <workItem from="1538574209649" duration="16020000" />
+      <workItem from="1538591461383" duration="3575000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="25683000" />
+    <option name="totallyTimeSpent" value="29522000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-5" y="30" width="1930" height="1023" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2630458" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2657082" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -311,13 +300,7 @@
         <state relative-caret-position="-2250" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ExternalPlugin.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="24" selection-start-line="24" selection-end-line="24" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/ExternalPlugin.cpp" />
     <entry file="file://$PROJECT_DIR$/PluginObjects.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="435">
@@ -325,19 +308,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Example/StockCarRules.hpp">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ExternalPlugin.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="7" selection-start-line="12" selection-start-column="7" selection-end-line="12" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Example/StockCarRules.cpp">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/Example/StockCarRules.hpp" />
+    <entry file="file://$PROJECT_DIR$/ExternalPlugin.h" />
+    <entry file="file://$PROJECT_DIR$/Example/StockCarRules.cpp" />
     <entry file="file://$PROJECT_DIR$/FFOneWrapper/FFOneWrapper/FFOneWrapper.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
@@ -345,30 +318,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rf2Effect.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="630">
-          <caret line="42" column="33" selection-start-line="42" selection-start-column="33" selection-end-line="42" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="660">
-          <caret line="269" column="36" selection-start-line="269" selection-start-column="36" selection-end-line="269" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rf2Effect.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="683">
-          <caret line="107" column="26" selection-start-line="107" selection-start-column="26" selection-end-line="107" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/FFOneWrapper/FFOneWrapper/FFOneWrapper.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-172">
+        <state relative-caret-position="150">
           <caret line="10" column="33" selection-start-line="10" selection-start-column="33" selection-end-line="10" selection-end-column="33" />
         </state>
       </provider>
@@ -387,13 +339,31 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/rf2Effect.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="36" column="32" selection-start-line="36" selection-start-column="32" selection-end-line="36" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="660">
+          <caret line="269" column="52" selection-start-line="269" selection-start-column="52" selection-end-line="269" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rf2Effect.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" column="45" selection-start-line="14" selection-start-column="45" selection-end-line="14" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/FFOnePlugin.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="608">
-          <caret line="200" column="51" selection-start-line="200" selection-start-column="51" selection-end-line="200" selection-end-column="51" />
-          <folding>
-            <element signature="e#179#198#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="656">
+          <caret line="202" column="32" selection-start-line="202" selection-start-column="32" selection-end-line="202" selection-end-column="32" />
         </state>
       </provider>
     </entry>

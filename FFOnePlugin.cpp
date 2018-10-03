@@ -13,7 +13,9 @@
 //#include <windows.h>
 // plugin information
 
-#define SLIDE_THRESHOLD 0.01f
+#define LATERAL_VELOCITY_THRESHOLD 0.5f //meters/second
+#define MAX_SLIDE_FORCE_AT 5.0f //meters/second
+#define LOCK_RATIO 0.5f //percentage
 
 #define SAFE_DELETE(p)  { if(p) { delete (p);	 (p)=nullptr; } }
 #define SAFE_RELEASE(p) { if(p) { (p)->Release(); (p)=nullptr; } }
@@ -24,13 +26,6 @@ LPDIRECTINPUT8			g_pDI = nullptr;
 LPDIRECTINPUTDEVICE8	g_pDevice = nullptr;
 rf2Effect* 				g_pEffect = nullptr;
 const char*             g_errorMessage = nullptr;
-double                  maxFract = -200.0f;
-double					minFract = +200.0f;
-double 					maxThreshold = -200.0f;
-double					minThreshold = +200.0f;
-double 					longitudinalMax = -200.0f;
-double					longitudinalMin = +3000.0f;
-double 					maxSpeed = -1000.0f;
 
 
 //-----------------------------------------------------------------------------
@@ -100,15 +95,6 @@ extern "C" __declspec(dllexport)
 void __cdecl ExitRealtime(){
 	g_realtime = false;
 	g_pEffect->stop();
-	fprintf(g_logFile, "Lateral Max: %e\n", maxThreshold);
-	fprintf(g_logFile, "Lateral Min: %e\n", minThreshold);
-	fprintf(g_logFile, "Long Max: %e\n", longitudinalMax);
-	fprintf(g_logFile, "Long Min: %e\n", longitudinalMin);
-	fprintf(g_logFile, "Max Speed: %e\n", maxSpeed);
-	fprintf(g_logFile, "Max Grip: %f\n", maxFract);
-	fprintf(g_logFile, "Min Grip: %f\n", minFract);
-
-
 }
 
 extern "C" __declspec(dllexport)
@@ -175,30 +161,49 @@ void __cdecl Shutdown(){
 extern "C" __declspec(dllexport)
 void __cdecl UpdateTelemetry(void* info) {
 	TelemInfoV01* telem = (TelemInfoV01*)info;
+#define SLIDE(v) (std::abs(v) > LATERAL_VELOCITY_THRESHOLD)
+#define LOCKED(v, car) ( (std::abs(v))<(LOCK_RATIO*(std::abs(car))))
+
 
 	if(g_realtime && g_pEffect){
 		g_pEffect->setRPM(telem->mEngineRPM, telem->mEngineMaxRPM);
 
-		if(std::abs(telem->mWheel[3].mLateralGroundVel) > maxThreshold)
-			maxThreshold = std::abs(telem->mWheel[3].mLateralGroundVel);
+		//Check for sliding
+		char slidingWheels = (
+				((SLIDE(telem->mWheel[0].mLateralGroundVel))?W_FL:0x0) |
+				((SLIDE(telem->mWheel[1].mLateralGroundVel))?W_FR:0x0) |
+				((SLIDE(telem->mWheel[2].mLateralGroundVel))?W_RL:0x0) |
+				((SLIDE(telem->mWheel[3].mLateralGroundVel))?W_RR:0x0)
+				);
+        double maxSlide = 0.0f;
+        for(int i=0; i<4; i++){
+            if( std::abs(telem->mWheel[i].mLateralGroundVel) > maxSlide)
+                maxSlide = std::abs(telem->mWheel[i].mLateralGroundVel);
+        }
+        double slideCoefficient = maxSlide/MAX_SLIDE_FORCE_AT;
 
-		if(std::abs(telem->mWheel[3].mLateralGroundVel) < minThreshold)
-			minThreshold = std::abs(telem->mWheel[3].mLateralGroundVel);
 
-		if(std::abs(telem->mWheel[3].mLongitudinalGroundVel) > longitudinalMax)
-			longitudinalMax = std::abs(telem->mWheel[3].mLongitudinalGroundVel);
+		//Check for locking
+		char lockedWheels = (
+				((LOCKED(telem->mWheel[0].mLongitudinalGroundVel, telem->mLocalVel.z))?W_FL:0x0) |
+				((LOCKED(telem->mWheel[1].mLongitudinalGroundVel, telem->mLocalVel.z))?W_FR:0x0) |
+				((LOCKED(telem->mWheel[2].mLongitudinalGroundVel, telem->mLocalVel.z))?W_RL:0x0) |
+				((LOCKED(telem->mWheel[3].mLongitudinalGroundVel, telem->mLocalVel.z))?W_RR:0x0)
+				);
 
-		if(std::abs(telem->mWheel[3].mLongitudinalGroundVel) < longitudinalMin)
-			longitudinalMin = std::abs(telem->mWheel[3].mLongitudinalGroundVel);
+		if(lockedWheels)
+		    slideCoefficient = 1.0f;
 
-		if(std::abs(telem->mWheel[3].mGripFract) > maxFract)
-			maxFract = std::abs(telem->mWheel[3].mGripFract);
+		//Check for rumblestrips
+		char rumbleLeft = (telem->mWheel[0].mSurfaceType==5 || telem->mWheel[2].mSurfaceType==5)?(W_FL|W_RL):(0x0);
+		char rumbleRight = (telem->mWheel[1].mSurfaceType==5 || telem->mWheel[3].mSurfaceType==5)?(W_FR|W_RR):(0x0);
+		if(rumbleLeft||rumbleRight) {
+            slideCoefficient = 0.5f;
+            lockedWheels = 0x0;
+            slidingWheels = 0x0;
+        }
 
-		if(std::abs(telem->mWheel[3].mGripFract) < minFract)
-			minFract = std::abs(telem->mWheel[3].mGripFract);
-
-		if(std::abs(telem->mLocalVel.z) > maxSpeed)
-			maxSpeed = std::abs(telem->mLocalVel.z);
+		g_pEffect->slideWheels(slidingWheels | lockedWheels | rumbleLeft | rumbleRight, slideCoefficient);
 
 		g_pEffect->play();
 	}

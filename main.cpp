@@ -232,42 +232,42 @@ int main(int argc, char **argv) {
 			switch (i) {
 				case 1:
 					std::cout << "FL" << std::endl;
-					ff->slideWheels(W_FL);
+					ff->slideWheels(W_FL, 0.1f);
                     rpm=rpm+100;
 					break;
 				case 2:
 					std::cout << "FR" << std::endl;
-					ff->slideWheels(W_FR);
+					ff->slideWheels(W_FR, 0.1f);
                     rpm=rpm+100;
 					break;
 				case 3:
 					std::cout << "RL" << std::endl;
-					ff->slideWheels(W_RL);
+					ff->slideWheels(W_RL, 0.1f);
                     rpm=rpm+100;
 					break;
 				case 4:
 					std::cout << "RR" << std::endl;
-					ff->slideWheels(W_RR);
+					ff->slideWheels(W_RR, 0.1f);
                     rpm=rpm+100;
 					break;
 				case 5:
 					std::cout << "F" << std::endl;
-					ff->slideWheels(W_FL | W_FR);
+					ff->slideWheels(W_FL | W_FR, 0.1f);
 					rpm=rpm+100;
 					break;
 				case 6:
 					std::cout << "R" << std::endl;
-					ff->slideWheels(W_RL | W_RR);
+					ff->slideWheels(W_RL | W_RR, 0.1f);
 					rpm=rpm+100;
 					break;
 				case 7:
 					std::cout << "L" << std::endl;
-					ff->slideWheels(W_FL | W_RL);
+					ff->slideWheels(W_FL | W_RL, 0.1f);
 					rpm=rpm+100;
 					break;
 				case 8:
 					std::cout << "R" << std::endl;
-					ff->slideWheels(W_FR | W_RR);
+					ff->slideWheels(W_FR | W_RR, 0.1f);
 					rpm=rpm+100;
 					break;
 				default:
