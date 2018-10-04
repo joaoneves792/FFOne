@@ -13,9 +13,9 @@
 //#include <windows.h>
 // plugin information
 
-#define LATERAL_VELOCITY_THRESHOLD 0.5f //meters/second
-#define MAX_SLIDE_FORCE_AT 5.0f //meters/second
-#define LOCK_RATIO 0.5f //percentage
+#define SLIDE_VELOCITY_THRESHOLD 1.2f //meters/second
+#define MAX_SLIDE_FORCE_AT 7.0f //meters/second
+#define WHEEL_LOCK_BELOW_PERCENTAGE 0.6f //percentage
 
 #define SAFE_DELETE(p)  { if(p) { delete (p);	 (p)=nullptr; } }
 #define SAFE_RELEASE(p) { if(p) { (p)->Release(); (p)=nullptr; } }
@@ -86,7 +86,6 @@ extern "C" __declspec(dllexport)
 void __cdecl EnterRealtime(){
 	g_realtime = true;
 	if (g_logFile != NULL) {
-		fprintf(g_logFile, "Enter realtime\n");
 		fprintf(g_logFile, (g_errorMessage)?"%s\n":"No errors!\n", g_errorMessage);
 	}
 }
@@ -161,49 +160,55 @@ void __cdecl Shutdown(){
 extern "C" __declspec(dllexport)
 void __cdecl UpdateTelemetry(void* info) {
 	TelemInfoV01* telem = (TelemInfoV01*)info;
-#define SLIDE(v) (std::abs(v) > LATERAL_VELOCITY_THRESHOLD)
-#define LOCKED(v, car) ( (std::abs(v))<(LOCK_RATIO*(std::abs(car))))
+#define SLIDE(v) (std::abs(v) > SLIDE_VELOCITY_THRESHOLD)
 
 
 	if(g_realtime && g_pEffect){
 		g_pEffect->setRPM(telem->mEngineRPM, telem->mEngineMaxRPM);
 
-		//Check for sliding
-		char slidingWheels = (
-				((SLIDE(telem->mWheel[0].mLateralGroundVel))?W_FL:0x0) |
-				((SLIDE(telem->mWheel[1].mLateralGroundVel))?W_FR:0x0) |
-				((SLIDE(telem->mWheel[2].mLateralGroundVel))?W_RL:0x0) |
-				((SLIDE(telem->mWheel[3].mLateralGroundVel))?W_RR:0x0)
-				);
+        //Check for sliding (I dont think this is actual slide, just cornering speed...)
+        char slidingWheels = (
+                ((SLIDE(telem->mWheel[0].mLateralPatchVel))?W_FL:0x0) |
+                ((SLIDE(telem->mWheel[1].mLateralPatchVel))?W_FR:0x0) |
+                ((SLIDE(telem->mWheel[2].mLateralPatchVel))?W_RL:0x0) |
+                ((SLIDE(telem->mWheel[3].mLateralPatchVel))?W_RR:0x0)
+        );
         double maxSlide = 0.0f;
         for(int i=0; i<4; i++){
-            if( std::abs(telem->mWheel[i].mLateralGroundVel) > maxSlide)
+            if( std::abs(telem->mWheel[i].mLateralPatchVel) > maxSlide)
                 maxSlide = std::abs(telem->mWheel[i].mLateralGroundVel);
         }
-        double slideCoefficient = maxSlide/MAX_SLIDE_FORCE_AT;
+        double slideCoefficient = maxSlide/MAX_SLIDE_FORCE_AT; //We dont cap this on purpose
 
+		char lockedSpinningWheels = 0x0000;
+		if(std::abs(telem->mLocalVel.z) > 0.1f) {
+			double lock_threshold = std::abs(telem->mLocalVel.z)*WHEEL_LOCK_BELOW_PERCENTAGE;// in m/s
+			double spin_threshold = std::abs(telem->mLocalVel.z)*(2.0f-WHEEL_LOCK_BELOW_PERCENTAGE);// in m/s
+			for (int i = 0; i < 4; i++) {
+				double wheel_av = std::abs(telem->mWheel[i].mRotation); //in rad/s
+				double radius = ((double) telem->mWheel[i].mStaticUndeflectedRadius) * 0.01f; //in meters
+				double wheel_v = radius * wheel_av;
+				if (wheel_v < lock_threshold || wheel_v > spin_threshold){
+					lockedSpinningWheels = lockedSpinningWheels | (1 << i);
+				}
+			}
+		}
 
-		//Check for locking
-		char lockedWheels = (
-				((LOCKED(telem->mWheel[0].mLongitudinalGroundVel, telem->mLocalVel.z))?W_FL:0x0) |
-				((LOCKED(telem->mWheel[1].mLongitudinalGroundVel, telem->mLocalVel.z))?W_FR:0x0) |
-				((LOCKED(telem->mWheel[2].mLongitudinalGroundVel, telem->mLocalVel.z))?W_RL:0x0) |
-				((LOCKED(telem->mWheel[3].mLongitudinalGroundVel, telem->mLocalVel.z))?W_RR:0x0)
-				);
-
-		if(lockedWheels)
-		    slideCoefficient = 1.0f;
+		if(lockedSpinningWheels) {
+			slideCoefficient = 2.2f;
+			slidingWheels = 0x0;
+		}
 
 		//Check for rumblestrips
 		char rumbleLeft = (telem->mWheel[0].mSurfaceType==5 || telem->mWheel[2].mSurfaceType==5)?(W_FL|W_RL):(0x0);
 		char rumbleRight = (telem->mWheel[1].mSurfaceType==5 || telem->mWheel[3].mSurfaceType==5)?(W_FR|W_RR):(0x0);
 		if(rumbleLeft||rumbleRight) {
             slideCoefficient = 0.5f;
-            lockedWheels = 0x0;
+            lockedSpinningWheels = 0x0;
             slidingWheels = 0x0;
         }
 
-		g_pEffect->slideWheels(slidingWheels | lockedWheels | rumbleLeft | rumbleRight, slideCoefficient);
+		g_pEffect->slideWheels(slidingWheels | lockedSpinningWheels | rumbleLeft | rumbleRight, slideCoefficient);
 
 		g_pEffect->play();
 	}

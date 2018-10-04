@@ -20,7 +20,7 @@ class rf2Effect {
 #define R_ANGLE  27000
 #define F_ANGLE  18000
 #define B_ANGLE      0
-#define WHEEL_MAGNITUDE 3000
+#define WHEEL_MAGNITUDE 500
 #define W_FL 0x1
 #define W_FR 0x2
 #define W_RL 0x4
