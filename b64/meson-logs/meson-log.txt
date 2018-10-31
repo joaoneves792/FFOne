@@ -1,0 +1,75 @@
+Build started at 2018-10-31T12:55:55.405902
+Main binary: /usr/bin/python
+Python system: Linux
+The Meson build system
+Version: 0.48.1
+Source dir: /home/joao/workspace/FFOne
+Build dir: /home/joao/workspace/FFOne/b64
+Build type: cross build
+Project name: tutorial
+Project version: undefined
+Sanity testing C compiler: cc
+Is cross compiler: False.
+Sanity check compiler command line: cc /home/joao/workspace/FFOne/b64/meson-private/sanitycheckc.c -o /home/joao/workspace/FFOne/b64/meson-private/sanitycheckc.exe
+Sanity check compile stdout:
+
+-----
+Sanity check compile stderr:
+
+-----
+Running test binary command: /home/joao/workspace/FFOne/b64/meson-private/sanitycheckc.exe
+Sanity testing C compiler: x86_64-w64-mingw32-gcc
+Is cross compiler: True.
+Sanity check compiler command line: x86_64-w64-mingw32-gcc -static -static-libgcc /home/joao/workspace/FFOne/b64/meson-private/sanitycheckc.c -o /home/joao/workspace/FFOne/b64/meson-private/sanitycheckc_cross.exe
+Sanity check compile stdout:
+
+-----
+Sanity check compile stderr:
+
+-----
+Running test binary command: /usr/bin/wine /home/joao/workspace/FFOne/b64/meson-private/sanitycheckc_cross.exe
+Native C compiler: cc (gcc 8.2.1 "cc (GCC) 8.2.1 20180831")
+Cross C compiler: x86_64-w64-mingw32-gcc (gcc 8.2.0)
+Sanity testing C++ compiler: c++
+Is cross compiler: False.
+Sanity check compiler command line: c++ /home/joao/workspace/FFOne/b64/meson-private/sanitycheckcpp.cc -o /home/joao/workspace/FFOne/b64/meson-private/sanitycheckcpp.exe
+Sanity check compile stdout:
+
+-----
+Sanity check compile stderr:
+
+-----
+Running test binary command: /home/joao/workspace/FFOne/b64/meson-private/sanitycheckcpp.exe
+Sanity testing C++ compiler: x86_64-w64-mingw32-g++
+Is cross compiler: True.
+Sanity check compiler command line: x86_64-w64-mingw32-g++ -Wno-non-virtual-dtor -mabi=ms -mabi=ms -static -static-libgcc -static-libstdc++ -Wl,--add-stdcall-alias,--enable-stdcall-fixup,--subsystem,windows -ldinput8 -ldinput -ldxguid /home/joao/workspace/FFOne/b64/meson-private/sanitycheckcpp.cc -o /home/joao/workspace/FFOne/b64/meson-private/sanitycheckcpp_cross.exe
+Sanity check compile stdout:
+
+-----
+Sanity check compile stderr:
+
+-----
+Running test binary command: /usr/bin/wine /home/joao/workspace/FFOne/b64/meson-private/sanitycheckcpp_cross.exe
+Native C++ compiler: c++ (gcc 8.2.1 "c++ (GCC) 8.2.1 20180831")
+Cross C++ compiler: x86_64-w64-mingw32-g++ (gcc 8.2.0)
+Host machine cpu family: x86_64
+Host machine cpu: x86_64
+Target machine cpu family: x86_64
+Target machine cpu: x86_64
+Build machine cpu family: x86_64
+Build machine cpu: x86_64
+Build targets in project: 2
+Found ninja-1.8.2 at /usr/bin/ninja
+Running compile:
+Working directory:  /tmp/tmppxyjv0uq
+Command line:  x86_64-w64-mingw32-g++ /tmp/tmppxyjv0uq/testfile.cpp -pipe -c -o /tmp/tmppxyjv0uq/output.obj -Wno-non-virtual-dtor -mabi=ms -O0 -fpermissive --print-search-dirs 
+
+Code:
+ 
+Compiler stdout:
+ install: /usr/lib/gcc/x86_64-w64-mingw32/8.2.0/
+programs: =/usr/lib/gcc/x86_64-w64-mingw32/8.2.0/:/usr/lib/gcc/x86_64-w64-mingw32/8.2.0/:/usr/lib/gcc/x86_64-w64-mingw32/:/usr/lib/gcc/x86_64-w64-mingw32/8.2.0/:/usr/lib/gcc/x86_64-w64-mingw32/:/usr/lib/gcc/x86_64-w64-mingw32/8.2.0/../../../../x86_64-w64-mingw32/bin/x86_64-w64-mingw32/8.2.0/:/usr/lib/gcc/x86_64-w64-mingw32/8.2.0/../../../../x86_64-w64-mingw32/bin/
+libraries: =/usr/lib/gcc/x86_64-w64-mingw32/8.2.0/:/usr/lib/gcc/x86_64-w64-mingw32/8.2.0/../../../../x86_64-w64-mingw32/lib/x86_64-w64-mingw32/8.2.0/:/usr/lib/gcc/x86_64-w64-mingw32/8.2.0/../../../../x86_64-w64-mingw32/lib/../lib/:/usr/lib/gcc/x86_64-w64-mingw32/8.2.0/../../../../x86_64-w64-mingw32/lib/
+
+Compiler stderr:
+ 

@@ -233,7 +233,12 @@ void FFOneWrapper::SetEnvironment( const EnvironmentInfoV01 &info ){
 
 	int moduleCount = 0;
 	if(!_secondaryModule[0]){
+#if _WIN64
+		const wchar_t relative_path[] = TEXT("..\\Bin64\\Plugins\\Wrapped\\");
+#else
 		const wchar_t relative_path[] = TEXT("..\\Bin32\\Plugins\\Wrapped\\");
+#endif
+
 		const wchar_t search_wildcard[] = TEXT("*.dll");
 
 

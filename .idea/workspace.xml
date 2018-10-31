@@ -11,11 +11,20 @@
   <component name="ChangeListManager">
     <list default="true" id="9b2afdf6-7e5c-4348-807a-655ba5f447f0" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FFOnePlugin.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/FFOnePlugin.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FFOneWrapper/FFOneWrapper/FFOneWrapper.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/FFOneWrapper/FFOneWrapper/FFOneWrapper.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/b/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/b/.ninja_deps" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/b/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/b/.ninja_log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rf2Effect.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/rf2Effect.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rf2Effect.h" beforeDir="false" afterPath="$PROJECT_DIR$/rf2Effect.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/b/meson-logs/meson-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/b/meson-logs/meson-log.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/b/meson-private/build.dat" beforeDir="false" afterPath="$PROJECT_DIR$/b/meson-private/build.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/b/meson-private/coredata.dat" beforeDir="false" afterPath="$PROJECT_DIR$/b/meson-private/coredata.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/b/meson-private/coredata.dat.prev" beforeDir="false" afterPath="$PROJECT_DIR$/b/meson-private/coredata.dat.prev" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/b/meson-private/sanitycheckc.exe" beforeDir="false" afterPath="$PROJECT_DIR$/b/meson-private/sanitycheckc.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/b/meson-private/sanitycheckc_cross.exe" beforeDir="false" afterPath="$PROJECT_DIR$/b/meson-private/sanitycheckc_cross.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/b/meson-private/sanitycheckcpp.exe" beforeDir="false" afterPath="$PROJECT_DIR$/b/meson-private/sanitycheckcpp.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/b/meson-private/sanitycheckcpp_cross.exe" beforeDir="false" afterPath="$PROJECT_DIR$/b/meson-private/sanitycheckcpp_cross.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dinput.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dinput8.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dxguid.lib" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -73,23 +82,23 @@
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="cpp" value="7" />
-          <entry key="h" value="6" />
+          <entry key="h" value="7" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="ObjectiveC" value="13" />
+          <entry key="ObjectiveC" value="14" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="cpp" value="4935" />
+          <entry key="cpp" value="4953" />
           <entry key="h" value="162" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="ObjectiveC" value="5097" />
+          <entry key="ObjectiveC" value="5115" />
         </counts>
       </usages-collector>
     </session>
@@ -99,17 +108,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/InternalsPlugin.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="480">
-              <caret line="149" column="10" lean-forward="true" selection-start-line="149" selection-start-column="10" selection-end-line="149" selection-end-column="10" />
+            <state relative-caret-position="15">
+              <caret line="119" column="7" selection-start-line="119" selection-start-column="7" selection-end-line="119" selection-end-column="7" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/FFOnePlugin.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1223">
-              <caret line="88" selection-start-line="88" selection-end-line="88" />
+            <state relative-caret-position="572">
+              <caret line="60" column="12" lean-forward="true" selection-start-line="60" selection-start-column="12" selection-end-line="60" selection-end-column="12" />
             </state>
           </provider>
         </entry>
@@ -141,11 +150,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/FFOneWrapper/FFOneWrapper/FFOneWrapper.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="10" column="33" selection-start-line="10" selection-start-column="33" selection-end-line="10" selection-end-column="33" />
+            <state relative-caret-position="315">
+              <caret line="236" column="54" selection-start-line="236" selection-start-column="54" selection-end-line="236" selection-end-column="54" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/FFOneWrapper/FFOneWrapper/FFOneWrapper.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="45">
+              <caret line="3" selection-start-line="3" selection-end-line="3" />
             </state>
           </provider>
         </entry>
@@ -170,11 +188,11 @@
         <option value="$PROJECT_DIR$/FFOnePlugin.c" />
         <option value="$PROJECT_DIR$/ExternalPlugin.h" />
         <option value="$PROJECT_DIR$/ExternalPlugin.cpp" />
-        <option value="$PROJECT_DIR$/FFOneWrapper/FFOneWrapper/FFOneWrapper.cpp" />
         <option value="$PROJECT_DIR$/main.cpp" />
         <option value="$PROJECT_DIR$/rf2Effect.cpp" />
         <option value="$PROJECT_DIR$/rf2Effect.h" />
         <option value="$PROJECT_DIR$/FFOnePlugin.cpp" />
+        <option value="$PROJECT_DIR$/FFOneWrapper/FFOneWrapper/FFOneWrapper.cpp" />
       </list>
     </option>
   </component>
@@ -195,7 +213,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -218,6 +235,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -261,12 +279,13 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="35037000" />
+    <option name="totallyTimeSpent" value="35504000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-5" y="30" width="1930" height="1023" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2683706" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.28434506" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -310,31 +329,10 @@
     <entry file="file://$PROJECT_DIR$/Example/StockCarRules.hpp" />
     <entry file="file://$PROJECT_DIR$/ExternalPlugin.h" />
     <entry file="file://$PROJECT_DIR$/Example/StockCarRules.cpp" />
-    <entry file="file://$PROJECT_DIR$/FFOneWrapper/FFOneWrapper/FFOneWrapper.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" selection-start-line="3" selection-end-line="3" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4035">
           <caret line="269" column="52" selection-start-line="269" selection-start-column="52" selection-end-line="269" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/FFOneWrapper/FFOneWrapper/FFOneWrapper.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="33" selection-start-line="10" selection-start-column="33" selection-end-line="10" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/FFOnePlugin.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" selection-start-line="7" selection-end-line="7" />
         </state>
       </provider>
     </entry>
@@ -347,8 +345,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/InternalsPlugin.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="149" column="10" lean-forward="true" selection-start-line="149" selection-start-column="10" selection-end-line="149" selection-end-column="10" />
+        <state relative-caret-position="15">
+          <caret line="119" column="7" selection-start-line="119" selection-start-column="7" selection-end-line="119" selection-end-column="7" />
         </state>
       </provider>
     </entry>
@@ -361,8 +359,29 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/FFOnePlugin.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1223">
-          <caret line="88" selection-start-line="88" selection-end-line="88" />
+        <state relative-caret-position="572">
+          <caret line="60" column="12" lean-forward="true" selection-start-line="60" selection-start-column="12" selection-end-line="60" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FFOnePlugin.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" selection-start-line="7" selection-end-line="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FFOneWrapper/FFOneWrapper/FFOneWrapper.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" selection-start-line="3" selection-end-line="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FFOneWrapper/FFOneWrapper/FFOneWrapper.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="236" column="54" selection-start-line="236" selection-start-column="54" selection-end-line="236" selection-end-column="54" />
         </state>
       </provider>
     </entry>
