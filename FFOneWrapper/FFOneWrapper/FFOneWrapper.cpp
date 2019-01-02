@@ -41,6 +41,8 @@ FFOneWrapper::FFOneWrapper(void)
 		_exUpdateTelemetry[i] = nullptr;
 		_exUpdateGraphics[i] = nullptr;
 		_exSetEnvironment[i] = nullptr;
+		_exInitScreen[i] = nullptr;
+		_exRenderAfterOverlays = nullptr;
 	}
 
 
@@ -97,6 +99,8 @@ void FFOneWrapper::Startup( long version){
 			fprintf( _logFile, (_exUpdateTelemetry[0])?"UpdateTelemetry present\n":"");
 			fprintf( _logFile, (_exUpdateGraphics[0])?"UpdateGraphics present\n":"");
 			fprintf( _logFile, (_exSetEnvironment[0])?"SetEnvironment present\n":"");
+			fprintf( _logFile, (_exInitScreen[0])?"SetEnvironment present\n":"");
+			fprintf( _logFile, (_exRenderAfterOverlays[0])?"SetEnvironment present\n":"");
 			m++;
 		}
 	}
@@ -213,6 +217,27 @@ void FFOneWrapper::UpdateGraphics( const GraphicsInfoV02 &info ){
 	}
 }
 
+void FFOneWrapper::InitScreen(const ScreenInfoV01 &info) {
+	int i = 0;
+	while(_secondaryModule[i]){
+		if(_exInitScreen[i]){
+			(_exInitScreen[i])((void*)&info);
+		}
+		i++;
+	}
+}
+
+void FFOneWrapper::RenderScreenAfterOverlays(const ScreenInfoV01 &info) {
+	int i = 0;
+	while(_secondaryModule[i]){
+		if(_exRenderAfterOverlays[i]){
+			(_exRenderAfterOverlays[i])((void*)&info);
+		}
+		i++;
+	}
+}
+
+
 void FFOneWrapper::SetEnvironment( const EnvironmentInfoV01 &info ){
 	// If we already have it, but it's wrong, delete it.
     if(_logPath){
@@ -309,7 +334,9 @@ void FFOneWrapper::SetEnvironment( const EnvironmentInfoV01 &info ){
 			_exUpdateTelemetry[i] = (exUpdateTelemetry)GetProcAddress(_secondaryModule[i], "UpdateTelemetry");
 			_exUpdateGraphics[i] = (exUpdateGraphics)GetProcAddress(_secondaryModule[i], "UpdateGraphics");
 			_exSetEnvironment[i] = (exSetEnvironment)GetProcAddress(_secondaryModule[i], "SetEnvironment");
-			i++;		
+			_exInitScreen[i] = (exInitScreen)GetProcAddress(_secondaryModule[i], "InitScreen");
+			_exRenderAfterOverlays[i] = (exRenderAfterOverlays)GetProcAddress(_secondaryModule[i], "RenderAfterOverlays");
+			i++;
 	}
 
     //Pass along to second stage

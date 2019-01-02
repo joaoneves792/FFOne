@@ -16,6 +16,8 @@ typedef __declspec(dllimport) void (__cdecl *exUpdateScoring)(const void*);
 typedef __declspec(dllimport) void (__cdecl *exUpdateTelemetry)(const void*);
 typedef __declspec(dllimport) void (__cdecl *exUpdateGraphics)(const void*);
 typedef __declspec(dllimport) void (__cdecl *exSetEnvironment)(const void*);
+typedef __declspec(dllimport) void (__cdecl *exInitScreen)(const void*);
+typedef __declspec(dllimport) void (__cdecl *exRenderAfterOverlays)(const void*);
 
 #define MAX_PLUGINS 10
 
@@ -44,6 +46,8 @@ private:
 	exUpdateTelemetry _exUpdateTelemetry[MAX_PLUGINS];
 	exUpdateGraphics _exUpdateGraphics[MAX_PLUGINS];
 	exSetEnvironment _exSetEnvironment[MAX_PLUGINS];
+	exInitScreen _exInitScreen[MAX_PLUGINS];
+	exRenderAfterOverlays _exRenderAfterOverlays[MAX_PLUGINS];
 
 public:
 	FFOneWrapper(void);
@@ -73,5 +77,8 @@ public:
   void UpdateGraphics( const GraphicsInfoV02 &info ); // update plugin with extended graphics info
 
   void SetEnvironment( const EnvironmentInfoV01 &info ); // may be called whenever the environment changes
+
+  void InitScreen(const ScreenInfoV01 &info);
+  void RenderScreenAfterOverlays( const ScreenInfoV01 &info ); // after rFactor overlays
 };
 
