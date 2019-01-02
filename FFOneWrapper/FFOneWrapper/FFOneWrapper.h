@@ -3,7 +3,8 @@
 #include "InternalsPlugin.hpp"
 #include <cstdio>                  // for logging
 
-typedef __declspec(dllimport) void (__cdecl *exStartup)(long); 
+
+typedef __declspec(dllimport) void (__cdecl *exStartup)(long);
 typedef __declspec(dllimport) void (__cdecl *exShutdown)(void);
 typedef __declspec(dllimport) void (__cdecl *exLoad)(void);
 typedef __declspec(dllimport) void (__cdecl *exUnload)(void);
@@ -19,6 +20,18 @@ typedef __declspec(dllimport) void (__cdecl *exSetEnvironment)(const void*);
 typedef __declspec(dllimport) void (__cdecl *exInitScreen)(const void*);
 typedef __declspec(dllimport) void (__cdecl *exRenderAfterOverlays)(const void*);
 
+
+typedef struct func{
+	(void*) f;
+	struct func* next;
+}func;
+
+typedef struct module{
+	wchar_t* name;
+	HINSTANCE m;
+	struct module* next;
+}module;
+
 #define MAX_PLUGINS 10
 
 class FFOneWrapper: public InternalsPluginV07{
@@ -30,24 +43,24 @@ private:
 	
 
 	//Second stage module
-	wchar_t* _moduleNames[MAX_PLUGINS];
-	HINSTANCE _secondaryModule[MAX_PLUGINS];
+	module* _secondaryModules = nullptr;
 
-	exStartup _exStartup[MAX_PLUGINS];
-	exShutdown _exShutdown[MAX_PLUGINS];
-	exLoad _exLoad[MAX_PLUGINS];
-	exUnload _exUnload[MAX_PLUGINS];
-	exStartSession _exStartSession[MAX_PLUGINS];
-	exEndSession _exEndSession[MAX_PLUGINS];
-	exEnterRealtime _exEnterRealtime[MAX_PLUGINS];
-	exExitRealtime _exExitRealtime[MAX_PLUGINS];
 
-	exUpdateScoring _exUpdateScoring[MAX_PLUGINS];
-	exUpdateTelemetry _exUpdateTelemetry[MAX_PLUGINS];
-	exUpdateGraphics _exUpdateGraphics[MAX_PLUGINS];
-	exSetEnvironment _exSetEnvironment[MAX_PLUGINS];
-	exInitScreen _exInitScreen[MAX_PLUGINS];
-	exRenderAfterOverlays _exRenderAfterOverlays[MAX_PLUGINS];
+	func* _exStartup = nullptr;
+	func* _exShutdown = nullptr;
+	func* _exLoad = nullptr;
+	func* _exUnload = nullptr;
+	func* _exStartSession = nullptr;
+	func* _exEndSession = nullptr;
+	func* _exEnterRealtime = nullptr;
+	func* _exExitRealtime = nullptr;
+
+	func* _exUpdateScoring = nullptr;
+	func* _exUpdateTelemetry = nullptr;
+	func* _exUpdateGraphics = nullptr;
+	func* _exSetEnvironment = nullptr;
+	func* _exInitScreen = nullptr;
+	func* _exRenderAfterOverlays = nullptr;
 
 public:
 	FFOneWrapper(void);

@@ -1,6 +1,7 @@
 #include "FFOneWrapper.h"
 #include <windows.h>
 #include <tchar.h>
+#include "uthash/utlist.h"
 
 extern "C" __declspec( dllexport )
 const char * __cdecl GetPluginName()                   { return( "WRAPPER - 2008.02.13" ); }
@@ -19,45 +20,23 @@ void __cdecl DestroyPluginObject( PluginObject *obj )  { delete( static_cast< FF
 
 FFOneWrapper::FFOneWrapper(void)
 {
-
 	_errorcode = 0;
 
 	_logFile = nullptr;
 	_logPath = nullptr;
-
-	for(int i=0;i<MAX_PLUGINS; i++){
-		_secondaryModule[i] = nullptr;
-
-		_exStartup[i] = nullptr;
-		_exShutdown[i] = nullptr;
-		_exLoad[i] = nullptr;
-		_exUnload[i] = nullptr;
-		_exStartSession[i] = nullptr;
-		_exEndSession[i] = nullptr;
-		_exEnterRealtime[i] = nullptr;
-		_exExitRealtime[i] = nullptr;
-
-		_exUpdateScoring[i] = nullptr;
-		_exUpdateTelemetry[i] = nullptr;
-		_exUpdateGraphics[i] = nullptr;
-		_exSetEnvironment[i] = nullptr;
-		_exInitScreen[i] = nullptr;
-		_exRenderAfterOverlays[i] = nullptr;
-	}
-
-
 }
 
 
 FFOneWrapper::~FFOneWrapper(void)
 {
-	int i = 0;
-	while(_secondaryModule[i]){
-		FreeLibrary(_secondaryModule[i]);
-		delete[] _moduleNames[i];
-		i++;
+	module* m, mtmp;
+	LL_FOREACH_SAFE(_secondaryModules, m, mtmp) {
+		FreeLibrary(m->m);
+		delete[] m->name;
+		LL_DELETE(_secondaryModule, m);
+		free(m);
 	}
-	
+
 	delete[] _logPath;
 
 	fclose(_logFile);
@@ -79,161 +58,120 @@ void FFOneWrapper::Startup( long version){
         }
     }
 
-    if(_logFile != NULL){
-        fprintf( _logFile, "\n--- Started plugin wrapper ---\n" );
-		if(_errorcode){
-			fprintf( _logFile, "Error : %d\n", _errorcode);
+    if(_logFile != NULL) {
+		fprintf(_logFile, "\n--- Started plugin wrapper ---\n");
+		if (_errorcode) {
+			fprintf(_logFile, "Error : %d\n", _errorcode);
 		}
-		int m = 0;
-		while(_secondaryModule[m]){
-			_ftprintf( _logFile, TEXT("Module: %s\n"), _moduleNames[m]);
-			fprintf( _logFile, (_exStartup[0])?"Startup present\n":"");
-			fprintf( _logFile, (_exShutdown[0])?"Shutdown present\n":"");
-			fprintf( _logFile, (_exLoad[0])?"Load present\n":"");
-			fprintf( _logFile, (_exUnload[0])?"Unload present\n":"");
-			fprintf( _logFile, (_exStartSession[0])?"StartSession present\n":"");
-			fprintf( _logFile, (_exEndSession[0])?"EndSession present\n":"");
-			fprintf( _logFile, (_exEnterRealtime[0])?"EnterRealtime present\n":"");
-			fprintf( _logFile, (_exExitRealtime[0])?"ExitRealtime present\n":"");
-			fprintf( _logFile, (_exUpdateScoring[0])?"UpdateScoring present\n":"");
-			fprintf( _logFile, (_exUpdateTelemetry[0])?"UpdateTelemetry present\n":"");
-			fprintf( _logFile, (_exUpdateGraphics[0])?"UpdateGraphics present\n":"");
-			fprintf( _logFile, (_exSetEnvironment[0])?"SetEnvironment present\n":"");
-			fprintf( _logFile, (_exInitScreen[0])?"SetEnvironment present\n":"");
-			fprintf( _logFile, (_exRenderAfterOverlays[0])?"SetEnvironment present\n":"");
-			m++;
+		module* m;
+		LL_FOREACH(_secondaryModules, m){
+			_ftprintf(_logFile, TEXT("Module: %s\n"), m->name);
 		}
+		fprintf( _logFile, (_exStartup)?"Startup present\n":"");
+		fprintf( _logFile, (_exShutdown)?"Shutdown present\n":"");
+		fprintf( _logFile, (_exLoad)?"Load present\n":"");
+		fprintf( _logFile, (_exUnload)?"Unload present\n":"");
+		fprintf( _logFile, (_exStartSession)?"StartSession present\n":"");
+		fprintf( _logFile, (_exEndSession)?"EndSession present\n":"");
+		fprintf( _logFile, (_exEnterRealtime)?"EnterRealtime present\n":"");
+		fprintf( _logFile, (_exExitRealtime)?"ExitRealtime present\n":"");
+		fprintf( _logFile, (_exUpdateScoring)?"UpdateScoring present\n":"");
+		fprintf( _logFile, (_exUpdateTelemetry)?"UpdateTelemetry present\n":"");
+		fprintf( _logFile, (_exUpdateGraphics)?"UpdateGraphics present\n":"");
+		fprintf( _logFile, (_exSetEnvironment)?"SetEnvironment present\n":"");
+		fprintf( _logFile, (_exInitScreen)?"SetEnvironment present\n":"");
+		fprintf( _logFile, (_exRenderAfterOverlays)?"SetEnvironment present\n":"");
+
 	}
 	//Pass along to 2nd stage
-	int i = 0;
-	while(_secondaryModule[i]){
-		if(_exStartup[i]){
-			(_exStartup[i])(version);
-		}
-		i++;
-	}
+    func* f;
+    LL_FOREACH(_exStartup, f){
+		((exStartup)f)(version);
+    }
 }
 
 void FFOneWrapper::Shutdown(){
-	int i = 0;
-	while(_secondaryModule[i]){
-		if(_exShutdown[i]){
-			(_exShutdown[i])();
-		}
-		i++;
+	func* f;
+	LL_FOREACH(_exShutdown, f){
+		((exShutdown)f)();
 	}
 }
  
 void FFOneWrapper::Load() {
-	int i = 0;
-	while(_secondaryModule[i]){
-		if(_exLoad[i]){
-			(_exLoad[i])();
-		}
-		i++;
+	func* f;
+	LL_FOREACH(_exLoad, f){
+		((exLoad)f)();
 	}
 }
 
 void FFOneWrapper::Unload(){
-	int i = 0;
-	while(_secondaryModule[i]){
-		if(_exUnload[i]){
-			(_exUnload[i])();
-		}
-		i++;
+	func* f;
+	LL_FOREACH(_exUnload, f){
+		((exUnload)f)();
 	}
 }
   
 void FFOneWrapper::StartSession(){
-	
-	//Pass along to second stage
-	int i = 0;
-	while(_secondaryModule[i]){
-		if(_exStartSession[i]){
-			(_exStartSession[i])();
-		}
-		i++;
+	func* f;
+	LL_FOREACH(_exStartSession, f){
+		((exStartSession)f)();
 	}
 }
   
 void FFOneWrapper::EndSession(){
-	int i = 0;
-	while(_secondaryModule[i]){
-		if(_exEndSession[i]){
-			(_exEndSession[i])();
-		}
-		i++;
+	func* f;
+	LL_FOREACH(_exEndSession, f){
+		((exEndSession)f)();
 	}
 }
 
 void FFOneWrapper::EnterRealtime(){
-	int i = 0;
-	while(_secondaryModule[i]){
-		if(_exEnterRealtime[i]){
-			(_exEnterRealtime[i])();
-		}
-		i++;
+	func* f;
+	LL_FOREACH(_exEnterRealtime, f){
+		((exEnterRealtime)f)();
 	}
 }
 
 void FFOneWrapper::ExitRealtime(){
-	int i = 0;
-	while(_secondaryModule[i]){
-		if(_exExitRealtime[i]){
-			(_exExitRealtime[i])();
-		}
-		i++;
+	func* f;
+	LL_FOREACH(_exExitRealtime, f){
+		((exExitRealtime)f)();
 	}
 }
 
  
 void FFOneWrapper::UpdateScoring( const ScoringInfoV01 &info ) {
-	int i = 0;
-	while(_secondaryModule[i]){
-		if(_exUpdateScoring[i]){
-			(_exUpdateScoring[i])((void*)&info);
-		}
-		i++;
+	func* f;
+	LL_FOREACH(_exUpdateScoring, f){
+		((exUpdateScoring)f)((void*)&info);
 	}
 }
 
 void FFOneWrapper::UpdateTelemetry( const TelemInfoV01 &info ) {
-	int i = 0;
-	while(_secondaryModule[i]){
-		if(_exUpdateTelemetry[i]){
-			(_exUpdateTelemetry[i])((void*)&info);
-		}
-		i++;
+	func* f;
+	LL_FOREACH(_exUpdateTelemetry, f){
+		((exUpdateTelemetry)f)((void*)&info);
 	}
 }
 
 void FFOneWrapper::UpdateGraphics( const GraphicsInfoV02 &info ){
-	int i = 0;
-	while(_secondaryModule[i]){
-		if(_exUpdateGraphics[i]){
-			(_exUpdateGraphics[i])((void*)&info);
-		}
-		i++;
+	func* f;
+	LL_FOREACH(_exUpdateGraphics, f){
+		((exUpdateGraphics)f)((void*)&info);
 	}
 }
 
 void FFOneWrapper::InitScreen(const ScreenInfoV01 &info) {
-	int i = 0;
-	while(_secondaryModule[i]){
-		if(_exInitScreen[i]){
-			(_exInitScreen[i])((void*)&info);
-		}
-		i++;
+	func* f;
+	LL_FOREACH(_exInitScreen, f){
+		((exInitScreen)f)((void*)&info);
 	}
 }
 
 void FFOneWrapper::RenderScreenAfterOverlays(const ScreenInfoV01 &info) {
-	int i = 0;
-	while(_secondaryModule[i]){
-		if(_exRenderAfterOverlays[i]){
-			(_exRenderAfterOverlays[i])((void*)&info);
-		}
-		i++;
+	func* f;
+	LL_FOREACH(_exRenderAfterOverlays, f){
+		((exRenderAfterOverlays)f)((void*)&info);
 	}
 }
 
@@ -256,8 +194,7 @@ void FFOneWrapper::SetEnvironment( const EnvironmentInfoV01 &info ){
     }
 
 
-	int moduleCount = 0;
-	if(!_secondaryModule[0]){
+	if(!_secondaryModules) {
 #if _WIN64
 		const wchar_t relative_path[] = TEXT("..\\Bin64\\Plugins\\Wrapped\\");
 #else
@@ -267,84 +204,98 @@ void FFOneWrapper::SetEnvironment( const EnvironmentInfoV01 &info ){
 		const wchar_t search_wildcard[] = TEXT("*.dll");
 
 
-		size_t pathLen = strlen( _logPath );
-        if( pathLen > 0 ){
-            //Convert logPath to unicode
+		size_t pathLen = strlen(_logPath);
+		if (pathLen > 0) {
+			//Convert logPath to unicode
 			size_t w_pathLen = MultiByteToWideChar(CP_ACP, 0, _logPath, -1, NULL, 0);
-			const size_t fullLen = w_pathLen + 100*sizeof(wchar_t);
-			wchar_t* searchPath = new wchar_t[ fullLen ];
+			const size_t fullLen = w_pathLen + 100 * sizeof(wchar_t);
+			wchar_t *searchPath = new wchar_t[fullLen];
 			MultiByteToWideChar(CP_ACP, 0, _logPath, -1, searchPath, w_pathLen);
 
 			//append and extra \ if necessary
-			if( searchPath[ w_pathLen - 1 ] != L'\\' )
-				_tcscat_s( searchPath, fullLen, TEXT("\\") );
+			if (searchPath[w_pathLen - 1] != L'\\')
+				_tcscat_s(searchPath, fullLen, TEXT("\\"));
 			//append the rest of the relative path
-			_tcscat_s( searchPath, fullLen, relative_path );
+			_tcscat_s(searchPath, fullLen, relative_path);
 
 			//Create the search wildcard
-			wchar_t* searchPattern = new wchar_t[fullLen];
-			_tcsncpy_s(searchPattern, fullLen, searchPath, _tcslen(searchPath)+1);
+			wchar_t *searchPattern = new wchar_t[fullLen];
+			_tcsncpy_s(searchPattern, fullLen, searchPath, _tcslen(searchPath) + 1);
 			_tcscat_s(searchPattern, fullLen, search_wildcard);
-			
+
 			//Go looking for dlls
 			WIN32_FIND_DATA FindFileData;
 			HANDLE hFind;
 			hFind = FindFirstFile(searchPattern, &FindFileData);
-			if(hFind != INVALID_HANDLE_VALUE){
-				do{
-					wchar_t* modulePath = new wchar_t[fullLen];
-					_tcsncpy_s(modulePath, fullLen, searchPath, _tcslen(searchPath)+1);
-					_tcscat_s( modulePath, fullLen, FindFileData.cFileName);
-				
-					//Load the modules
-					_secondaryModule[moduleCount] = LoadLibrary(modulePath);
-					if(NULL == _secondaryModule[moduleCount]){
-						_errorcode = GetLastError();
-					}else{
-						size_t nameLen = _tcslen(FindFileData.cFileName);
-						_moduleNames[moduleCount] = new wchar_t[nameLen+1];
-						_tcsncpy_s(_moduleNames[moduleCount], nameLen+1, FindFileData.cFileName, nameLen+1);
-						moduleCount++;
-					}
-					delete [] modulePath;
+			if (hFind != INVALID_HANDLE_VALUE) {
+				do {
+					wchar_t *modulePath = new wchar_t[fullLen];
+					_tcsncpy_s(modulePath, fullLen, searchPath, _tcslen(searchPath) + 1);
+					_tcscat_s(modulePath, fullLen, FindFileData.cFileName);
 
-				}while(FindNextFile(hFind, &FindFileData));
-     			FindClose(hFind);
+					//Load the modules
+					HINSTANCE mod = LoadLibrary(modulePath);
+					if (NULL == mod) {
+						_errorcode = GetLastError();
+					} else {
+						size_t nameLen = _tcslen(FindFileData.cFileName);
+						wchar_t *name = new wchar_t[nameLen + 1];
+						_tcsncpy_s(name, nameLen + 1, FindFileData.cFileName, nameLen + 1);
+						module *m = new module;
+						m->name = name;
+						m->m = mod;
+						LL_APPEND(_secondaryModules, m)
+					}
+					delete[] modulePath;
+
+				} while (FindNextFile(hFind, &FindFileData));
+				FindClose(hFind);
 			}
 			delete[] searchPath;
 			delete[] searchPattern;
 		}
-	}
 
 
-    // resolve function addresses here	
-	int i = 0;
-	while(_secondaryModule[i]){
 
-			_exStartup[i] = (exStartup)GetProcAddress(_secondaryModule[i], "Startup");
-			_exShutdown[i] = (exShutdown)GetProcAddress(_secondaryModule[i], "Shutdown");
-			_exLoad[i] = (exLoad)GetProcAddress(_secondaryModule[i], "Load");
-			_exUnload[i] = (exUnload)GetProcAddress(_secondaryModule[i], "Unload");
-			_exStartSession[i] = (exStartSession)GetProcAddress(_secondaryModule[i], "StartSession");
-			_exEndSession[i] = (exEndSession)GetProcAddress(_secondaryModule[i], "EndSession");
-			_exEnterRealtime[i] = (exEnterRealtime)GetProcAddress(_secondaryModule[i], "EnterRealtime");
-			_exExitRealtime[i] = (exExitRealtime)GetProcAddress(_secondaryModule[i], "ExitRealtime");
+		// resolve function addresses here
+		module *m;
+		LL_FOREACH(_secondaryModules, m) {
+			void *f;
+			f = (void *) GetProcAddress(m->m, "Startup");
+			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exStartup, newFunc)}
+			f = (void *) GetProcAddress(m->m, "Shutdown");
+			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exShutdown, newFunc)}
+			f = (void *) GetProcAddress(m->m, "Load");
+			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exLoad, newFunc)}
+			f = (void *) GetProcAddress(m->m, "Unload");
+			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exUnload, newFunc)}
+			f = (void *) GetProcAddress(m->m, "StartSession");
+			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exStartSession, newFunc)}
+			f = (void *) GetProcAddress(m->m, "EndSession");
+			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exEndSession, newFunc)}
+			f = (void *) GetProcAddress(m->m, "EnterRealtime");
+			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exEnterRealtime, newFunc)}
+			f = (void *) GetProcAddress(m->m, "ExitRealtime");
+			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exExitRealtime, newFunc)}
 
-			_exUpdateScoring[i] = (exUpdateScoring)GetProcAddress(_secondaryModule[i], "UpdateScoring");
-			_exUpdateTelemetry[i] = (exUpdateTelemetry)GetProcAddress(_secondaryModule[i], "UpdateTelemetry");
-			_exUpdateGraphics[i] = (exUpdateGraphics)GetProcAddress(_secondaryModule[i], "UpdateGraphics");
-			_exSetEnvironment[i] = (exSetEnvironment)GetProcAddress(_secondaryModule[i], "SetEnvironment");
-			_exInitScreen[i] = (exInitScreen)GetProcAddress(_secondaryModule[i], "InitScreen");
-			_exRenderAfterOverlays[i] = (exRenderAfterOverlays)GetProcAddress(_secondaryModule[i], "RenderAfterOverlays");
-			i++;
-	}
-
-    //Pass along to second stage
-	i=0;
-	while(_secondaryModule[i]){
-		if(_exSetEnvironment[i]){
-			(_exSetEnvironment[i])((void*)&info);
+			f = (void *) GetProcAddress(m->m, "UpdateScoring");
+			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exUpdateScoring, newFunc)}
+			f = (void *) GetProcAddress(m->m, "UpdateTelemetry");
+			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exUpdateTelemetry, newFunc)}
+			f = (void *) GetProcAddress(m->m, "UpdateGraphics");
+			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exUpdateGraphics, newFunc)}
+			f = (void *) GetProcAddress(m->m, "SetEnvironment");
+			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exSetEnvironment, newFunc)}
+			f = (void *) GetProcAddress(m->m, "InitScreen");
+			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exInitScreen, newFunc)}
+			f = (void *) GetProcAddress(m->m, "RenderAfterOverlays");
+			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exRenderAfterOverlays, newFunc)}
 		}
-		i++;
+	}
+
+
+	func* f;
+	LL_FOREACH(_exSetEnvironment, f){
+		((exSetEnvironment)f)((void*)&info);
 	}
 }
