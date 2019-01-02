@@ -42,7 +42,7 @@ FFOneWrapper::FFOneWrapper(void)
 		_exUpdateGraphics[i] = nullptr;
 		_exSetEnvironment[i] = nullptr;
 		_exInitScreen[i] = nullptr;
-		_exRenderAfterOverlays = nullptr;
+		_exRenderAfterOverlays[i] = nullptr;
 	}
 
 
