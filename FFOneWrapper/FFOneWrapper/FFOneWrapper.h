@@ -2,6 +2,7 @@
 #include "PluginObjects.hpp"
 #include "InternalsPlugin.hpp"
 #include <cstdio>                  // for logging
+#include <list>
 
 
 typedef __declspec(dllimport) void (__cdecl *exStartup)(long);
@@ -21,18 +22,10 @@ typedef __declspec(dllimport) void (__cdecl *exInitScreen)(const void*);
 typedef __declspec(dllimport) void (__cdecl *exRenderAfterOverlays)(const void*);
 
 
-typedef struct func{
-	(void*) f;
-	struct func* next;
-}func;
-
 typedef struct module{
 	wchar_t* name;
 	HINSTANCE m;
-	struct module* next;
 }module;
-
-#define MAX_PLUGINS 10
 
 class FFOneWrapper: public InternalsPluginV07{
 private:
@@ -43,24 +36,24 @@ private:
 	
 
 	//Second stage module
-	module* _secondaryModules;
+	std::list<module*> _secondaryModules;
 
 
-	func* _exStartup;
-	func* _exShutdown;
-	func* _exLoad;
-	func* _exUnload;
-	func* _exStartSession;
-	func* _exEndSession;
-	func* _exEnterRealtime;
-	func* _exExitRealtime;
+	std::list<exStartup> _exStartup;
+	std::list<exShutdown>  _exShutdown;
+	std::list<exLoad> _exLoad;
+	std::list<exUnload> _exUnload;
+	std::list<exStartSession> _exStartSession;
+	std::list<exEndSession> _exEndSession;
+	std::list<exEnterRealtime> _exEnterRealtime;
+	std::list<exExitRealtime> _exExitRealtime;
 
-	func* _exUpdateScoring;
-	func* _exUpdateTelemetry;
-	func* _exUpdateGraphics;
-	func* _exSetEnvironment;
-	func* _exInitScreen;
-	func* _exRenderAfterOverlays;
+	std::list<exUpdateScoring> _exUpdateScoring;
+	std::list<exUpdateTelemetry> _exUpdateTelemetry;
+	std::list<exUpdateGraphics> _exUpdateGraphics;
+	std::list<exSetEnvironment> _exSetEnvironment;
+	std::list<exInitScreen> _exInitScreen;
+	std::list<exRenderAfterOverlays> _exRenderAfterOverlays;
 
 public:
 	FFOneWrapper(void);

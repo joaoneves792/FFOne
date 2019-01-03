@@ -1,7 +1,7 @@
 #include "FFOneWrapper.h"
 #include <windows.h>
 #include <tchar.h>
-#include "uthash/utlist.h"
+#include <list>
 
 extern "C" __declspec( dllexport )
 const char * __cdecl GetPluginName()                   { return( "WRAPPER - 2008.02.13" ); }
@@ -24,37 +24,32 @@ FFOneWrapper::FFOneWrapper(void)
 
 	_logFile = nullptr;
 	_logPath = nullptr;
-
-	_secondaryModules = nullptr;
-
-
-	_exStartup = nullptr;
-	_exShutdown = nullptr;
-	_exLoad = nullptr;
-	_exUnload = nullptr;
-	_exStartSession = nullptr;
-	_exEndSession = nullptr;
-	_exEnterRealtime = nullptr;
-	_exExitRealtime = nullptr;
-
-	_exUpdateScoring = nullptr;
-	_exUpdateTelemetry = nullptr;
-	_exUpdateGraphics = nullptr;
-	_exSetEnvironment = nullptr;
-	_exInitScreen = nullptr;
-	_exRenderAfterOverlays = nullptr;
 }
 
 
 FFOneWrapper::~FFOneWrapper(void)
 {
-	module* m, *mtmp;
-	LL_FOREACH_SAFE(_secondaryModules, m, mtmp) {
+	for(module *m : _secondaryModules){
 		FreeLibrary(m->m);
 		delete[] m->name;
-		LL_DELETE(_secondaryModules, m);
-		free(m);
 	}
+	_secondaryModules.clear();
+
+	_exStartup.clear();
+	_exShutdown.clear();
+	_exLoad.clear();
+	_exUnload.clear();
+	_exStartSession.clear();
+	_exEndSession.clear();
+	_exEnterRealtime.clear();
+	_exExitRealtime.clear();
+
+	_exUpdateScoring.clear();
+	_exUpdateTelemetry.clear();
+	_exUpdateGraphics.clear();
+	_exSetEnvironment.clear();
+	_exInitScreen.clear();
+	_exRenderAfterOverlays.clear();
 
 	delete[] _logPath;
 
@@ -82,116 +77,90 @@ void FFOneWrapper::Startup( long version){
 		if (_errorcode) {
 			fprintf(_logFile, "Error : %d\n", _errorcode);
 		}
-		module* m;
-		LL_FOREACH(_secondaryModules, m){
-			_ftprintf(_logFile, TEXT("Module: %s\n"), m->name);
+		for(module *m : _secondaryModules){
+				_ftprintf(_logFile, TEXT("Module: %s\n"), m->name);
 		}
-		fprintf( _logFile, (_exStartup)?"Startup present\n":"");
-		fprintf( _logFile, (_exShutdown)?"Shutdown present\n":"");
-		fprintf( _logFile, (_exLoad)?"Load present\n":"");
-		fprintf( _logFile, (_exUnload)?"Unload present\n":"");
-		fprintf( _logFile, (_exStartSession)?"StartSession present\n":"");
-		fprintf( _logFile, (_exEndSession)?"EndSession present\n":"");
-		fprintf( _logFile, (_exEnterRealtime)?"EnterRealtime present\n":"");
-		fprintf( _logFile, (_exExitRealtime)?"ExitRealtime present\n":"");
-		fprintf( _logFile, (_exUpdateScoring)?"UpdateScoring present\n":"");
-		fprintf( _logFile, (_exUpdateTelemetry)?"UpdateTelemetry present\n":"");
-		fprintf( _logFile, (_exUpdateGraphics)?"UpdateGraphics present\n":"");
-		fprintf( _logFile, (_exSetEnvironment)?"SetEnvironment present\n":"");
-		fprintf( _logFile, (_exInitScreen)?"SetEnvironment present\n":"");
-		fprintf( _logFile, (_exRenderAfterOverlays)?"SetEnvironment present\n":"");
+		fprintf( _logFile, (!_exStartup.empty())?"Startup present\n":"");
+		fprintf( _logFile, (!_exShutdown.empty())?"Shutdown present\n":"");
+		fprintf( _logFile, (!_exLoad.empty())?"Load present\n":"");
+		fprintf( _logFile, (!_exUnload.empty())?"Unload present\n":"");
+		fprintf( _logFile, (!_exStartSession.empty())?"StartSession present\n":"");
+		fprintf( _logFile, (!_exEndSession.empty())?"EndSession present\n":"");
+		fprintf( _logFile, (!_exEnterRealtime.empty())?"EnterRealtime present\n":"");
+		fprintf( _logFile, (!_exExitRealtime.empty())?"ExitRealtime present\n":"");
+		fprintf( _logFile, (!_exUpdateScoring.empty())?"UpdateScoring present\n":"");
+		fprintf( _logFile, (!_exUpdateTelemetry.empty())?"UpdateTelemetry present\n":"");
+		fprintf( _logFile, (!_exUpdateGraphics.empty())?"UpdateGraphics present\n":"");
+		fprintf( _logFile, (!_exSetEnvironment.empty())?"SetEnvironment present\n":"");
+		fprintf( _logFile, (!_exInitScreen.empty())?"InitScreen present\n":"");
+		fprintf( _logFile, (!_exRenderAfterOverlays.empty())?"RenderAfterOverlays present\n":"");
 
 	}
 	//Pass along to 2nd stage
-    func* f;
-    LL_FOREACH(_exStartup, f){
-		((exStartup)f)(version);
-    }
+	for(exStartup f : _exStartup)
+		(f)(version);
+
 }
 
 void FFOneWrapper::Shutdown(){
-	func* f;
-	LL_FOREACH(_exShutdown, f){
-		((exShutdown)f)();
-	}
+	for(exShutdown f : _exShutdown)
+		(f)();
 }
  
 void FFOneWrapper::Load() {
-	func* f;
-	LL_FOREACH(_exLoad, f){
-		((exLoad)f)();
-	}
+	for(exLoad f : _exLoad)
+		(f)();
 }
 
 void FFOneWrapper::Unload(){
-	func* f;
-	LL_FOREACH(_exUnload, f){
-		((exUnload)f)();
-	}
+	for(exUnload f : _exUnload)
+		(f)();
 }
   
 void FFOneWrapper::StartSession(){
-	func* f;
-	LL_FOREACH(_exStartSession, f){
-		((exStartSession)f)();
-	}
+	for(exStartSession f : _exStartSession)
+		(f)();
 }
   
 void FFOneWrapper::EndSession(){
-	func* f;
-	LL_FOREACH(_exEndSession, f){
-		((exEndSession)f)();
-	}
+	for(exEndSession f : _exEndSession)
+		(f)();
 }
 
 void FFOneWrapper::EnterRealtime(){
-	func* f;
-	LL_FOREACH(_exEnterRealtime, f){
-		((exEnterRealtime)f)();
-	}
+	for(exEnterRealtime f : _exEnterRealtime)
+		(f)();
 }
 
 void FFOneWrapper::ExitRealtime(){
-	func* f;
-	LL_FOREACH(_exExitRealtime, f){
-		((exExitRealtime)f)();
-	}
+	for(exExitRealtime f : _exExitRealtime)
+		(f)();
 }
 
  
 void FFOneWrapper::UpdateScoring( const ScoringInfoV01 &info ) {
-	func* f;
-	LL_FOREACH(_exUpdateScoring, f){
-		((exUpdateScoring)f)((void*)&info);
-	}
+	for(exUpdateScoring f : _exUpdateScoring)
+		(f)((void*)&info);
 }
 
 void FFOneWrapper::UpdateTelemetry( const TelemInfoV01 &info ) {
-	func* f;
-	LL_FOREACH(_exUpdateTelemetry, f){
-		((exUpdateTelemetry)f)((void*)&info);
-	}
+	for(exUpdateTelemetry f : _exUpdateTelemetry)
+		(f)((void*)&info);
 }
 
 void FFOneWrapper::UpdateGraphics( const GraphicsInfoV02 &info ){
-	func* f;
-	LL_FOREACH(_exUpdateGraphics, f){
-		((exUpdateGraphics)f)((void*)&info);
-	}
+	for(exUpdateGraphics f : _exUpdateGraphics)
+		(f)((void*)&info);
 }
 
 void FFOneWrapper::InitScreen(const ScreenInfoV01 &info) {
-	func* f;
-	LL_FOREACH(_exInitScreen, f){
-		((exInitScreen)f)((void*)&info);
-	}
+	for(exInitScreen f : _exInitScreen)
+		(f)((void*)&info);
 }
 
 void FFOneWrapper::RenderScreenAfterOverlays(const ScreenInfoV01 &info) {
-	func* f;
-	LL_FOREACH(_exRenderAfterOverlays, f){
-		((exRenderAfterOverlays)f)((void*)&info);
-	}
+	for(exRenderAfterOverlays f : _exRenderAfterOverlays)
+		(f)((void*)&info);
 }
 
 
@@ -213,7 +182,7 @@ void FFOneWrapper::SetEnvironment( const EnvironmentInfoV01 &info ){
     }
 
 
-	if(!_secondaryModules) {
+	if(_secondaryModules.empty()) {
 #if _WIN64
 		const wchar_t relative_path[] = TEXT("..\\Bin64\\Plugins\\Wrapped\\");
 #else
@@ -229,7 +198,7 @@ void FFOneWrapper::SetEnvironment( const EnvironmentInfoV01 &info ){
 			size_t w_pathLen = MultiByteToWideChar(CP_ACP, 0, _logPath, -1, NULL, 0);
 			const size_t fullLen = w_pathLen + 100 * sizeof(wchar_t);
 			wchar_t *searchPath = new wchar_t[fullLen];
-			MultiByteToWideChar(CP_ACP, 0, _logPath, -1, searchPath, w_pathLen);
+			MultiByteToWideChar(CP_ACP, 0, _logPath, -1, searchPath, (int)w_pathLen);
 
 			//append and extra \ if necessary
 			if (searchPath[w_pathLen - 1] != L'\\')
@@ -263,7 +232,7 @@ void FFOneWrapper::SetEnvironment( const EnvironmentInfoV01 &info ){
 						module *m = new module;
 						m->name = name;
 						m->m = mod;
-						LL_APPEND(_secondaryModules, m);
+						_secondaryModules.push_back(m);
 					}
 					delete[] modulePath;
 
@@ -277,44 +246,40 @@ void FFOneWrapper::SetEnvironment( const EnvironmentInfoV01 &info ){
 
 
 		// resolve function addresses here
-		module *m;
-		LL_FOREACH(_secondaryModules, m) {
+		for(module *m : _secondaryModules){
 			void *f;
 			f = (void *) GetProcAddress(m->m, "Startup");
-			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exStartup, newFunc);}
+			if (f) {_exStartup.push_back((exStartup)f);}
 			f = (void *) GetProcAddress(m->m, "Shutdown");
-			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exShutdown, newFunc);}
+			if (f) {_exShutdown.push_back((exShutdown)f);}
 			f = (void *) GetProcAddress(m->m, "Load");
-			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exLoad, newFunc);}
+			if (f) {_exLoad.push_back((exLoad)f);}
 			f = (void *) GetProcAddress(m->m, "Unload");
-			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exUnload, newFunc);}
+			if (f) {_exUnload.push_back((exUnload)f);}
 			f = (void *) GetProcAddress(m->m, "StartSession");
-			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exStartSession, newFunc);}
+			if (f) {_exStartSession.push_back((exStartSession)f);}
 			f = (void *) GetProcAddress(m->m, "EndSession");
-			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exEndSession, newFunc);}
+			if (f) {_exEndSession.push_back((exEndSession)f);}
 			f = (void *) GetProcAddress(m->m, "EnterRealtime");
-			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exEnterRealtime, newFunc);}
+			if (f) {_exEnterRealtime.push_back((exEnterRealtime)f);}
 			f = (void *) GetProcAddress(m->m, "ExitRealtime");
-			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exExitRealtime, newFunc);}
-
+			if (f) {_exExitRealtime.push_back((exExitRealtime)f);}
+			
 			f = (void *) GetProcAddress(m->m, "UpdateScoring");
-			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exUpdateScoring, newFunc);}
+			if (f) {_exUpdateScoring.push_back((exUpdateScoring)f);}
 			f = (void *) GetProcAddress(m->m, "UpdateTelemetry");
-			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exUpdateTelemetry, newFunc);}
+			if (f) {_exUpdateTelemetry.push_back((exUpdateTelemetry)f);}
 			f = (void *) GetProcAddress(m->m, "UpdateGraphics");
-			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exUpdateGraphics, newFunc);}
+			if (f) {_exUpdateGraphics.push_back((exUpdateGraphics)f);}
 			f = (void *) GetProcAddress(m->m, "SetEnvironment");
-			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exSetEnvironment, newFunc);}
+			if (f) {_exSetEnvironment.push_back((exSetEnvironment)f);}
 			f = (void *) GetProcAddress(m->m, "InitScreen");
-			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exInitScreen, newFunc);}
+			if (f) {_exInitScreen.push_back((exInitScreen)f);}
 			f = (void *) GetProcAddress(m->m, "RenderAfterOverlays");
-			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exRenderAfterOverlays, newFunc);}
+			if (f) {_exRenderAfterOverlays.push_back((exRenderAfterOverlays)f);}
 		}
 	}
 
-
-	func* f;
-	LL_FOREACH(_exSetEnvironment, f){
-		((exSetEnvironment)f)((void*)&info);
-	}
+	for(exSetEnvironment f : _exSetEnvironment)
+		(f)((void*)&info);
 }
