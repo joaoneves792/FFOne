@@ -24,16 +24,35 @@ FFOneWrapper::FFOneWrapper(void)
 
 	_logFile = nullptr;
 	_logPath = nullptr;
+
+	_secondaryModules = nullptr;
+
+
+	_exStartup = nullptr;
+	_exShutdown = nullptr;
+	_exLoad = nullptr;
+	_exUnload = nullptr;
+	_exStartSession = nullptr;
+	_exEndSession = nullptr;
+	_exEnterRealtime = nullptr;
+	_exExitRealtime = nullptr;
+
+	_exUpdateScoring = nullptr;
+	_exUpdateTelemetry = nullptr;
+	_exUpdateGraphics = nullptr;
+	_exSetEnvironment = nullptr;
+	_exInitScreen = nullptr;
+	_exRenderAfterOverlays = nullptr;
 }
 
 
 FFOneWrapper::~FFOneWrapper(void)
 {
-	module* m, mtmp;
+	module* m, *mtmp;
 	LL_FOREACH_SAFE(_secondaryModules, m, mtmp) {
 		FreeLibrary(m->m);
 		delete[] m->name;
-		LL_DELETE(_secondaryModule, m);
+		LL_DELETE(_secondaryModules, m);
 		free(m);
 	}
 
@@ -244,7 +263,7 @@ void FFOneWrapper::SetEnvironment( const EnvironmentInfoV01 &info ){
 						module *m = new module;
 						m->name = name;
 						m->m = mod;
-						LL_APPEND(_secondaryModules, m)
+						LL_APPEND(_secondaryModules, m);
 					}
 					delete[] modulePath;
 
@@ -262,34 +281,34 @@ void FFOneWrapper::SetEnvironment( const EnvironmentInfoV01 &info ){
 		LL_FOREACH(_secondaryModules, m) {
 			void *f;
 			f = (void *) GetProcAddress(m->m, "Startup");
-			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exStartup, newFunc)}
+			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exStartup, newFunc);}
 			f = (void *) GetProcAddress(m->m, "Shutdown");
-			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exShutdown, newFunc)}
+			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exShutdown, newFunc);}
 			f = (void *) GetProcAddress(m->m, "Load");
-			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exLoad, newFunc)}
+			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exLoad, newFunc);}
 			f = (void *) GetProcAddress(m->m, "Unload");
-			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exUnload, newFunc)}
+			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exUnload, newFunc);}
 			f = (void *) GetProcAddress(m->m, "StartSession");
-			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exStartSession, newFunc)}
+			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exStartSession, newFunc);}
 			f = (void *) GetProcAddress(m->m, "EndSession");
-			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exEndSession, newFunc)}
+			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exEndSession, newFunc);}
 			f = (void *) GetProcAddress(m->m, "EnterRealtime");
-			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exEnterRealtime, newFunc)}
+			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exEnterRealtime, newFunc);}
 			f = (void *) GetProcAddress(m->m, "ExitRealtime");
-			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exExitRealtime, newFunc)}
+			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exExitRealtime, newFunc);}
 
 			f = (void *) GetProcAddress(m->m, "UpdateScoring");
-			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exUpdateScoring, newFunc)}
+			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exUpdateScoring, newFunc);}
 			f = (void *) GetProcAddress(m->m, "UpdateTelemetry");
-			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exUpdateTelemetry, newFunc)}
+			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exUpdateTelemetry, newFunc);}
 			f = (void *) GetProcAddress(m->m, "UpdateGraphics");
-			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exUpdateGraphics, newFunc)}
+			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exUpdateGraphics, newFunc);}
 			f = (void *) GetProcAddress(m->m, "SetEnvironment");
-			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exSetEnvironment, newFunc)}
+			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exSetEnvironment, newFunc);}
 			f = (void *) GetProcAddress(m->m, "InitScreen");
-			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exInitScreen, newFunc)}
+			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exInitScreen, newFunc);}
 			f = (void *) GetProcAddress(m->m, "RenderAfterOverlays");
-			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exRenderAfterOverlays, newFunc)}
+			if (f) {func *newFunc = new func; newFunc->f = f; LL_APPEND(_exRenderAfterOverlays, newFunc);}
 		}
 	}
 

@@ -43,24 +43,24 @@ private:
 	
 
 	//Second stage module
-	module* _secondaryModules = nullptr;
+	module* _secondaryModules;
 
 
-	func* _exStartup = nullptr;
-	func* _exShutdown = nullptr;
-	func* _exLoad = nullptr;
-	func* _exUnload = nullptr;
-	func* _exStartSession = nullptr;
-	func* _exEndSession = nullptr;
-	func* _exEnterRealtime = nullptr;
-	func* _exExitRealtime = nullptr;
+	func* _exStartup;
+	func* _exShutdown;
+	func* _exLoad;
+	func* _exUnload;
+	func* _exStartSession;
+	func* _exEndSession;
+	func* _exEnterRealtime;
+	func* _exExitRealtime;
 
-	func* _exUpdateScoring = nullptr;
-	func* _exUpdateTelemetry = nullptr;
-	func* _exUpdateGraphics = nullptr;
-	func* _exSetEnvironment = nullptr;
-	func* _exInitScreen = nullptr;
-	func* _exRenderAfterOverlays = nullptr;
+	func* _exUpdateScoring;
+	func* _exUpdateTelemetry;
+	func* _exUpdateGraphics;
+	func* _exSetEnvironment;
+	func* _exInitScreen;
+	func* _exRenderAfterOverlays;
 
 public:
 	FFOneWrapper(void);
