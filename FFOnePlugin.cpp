@@ -82,22 +82,23 @@ void __cdecl SetEnvironment(void* info) {
 	}
 }
 
-extern "C" __declspec(dllexport)
-void __cdecl EnterRealtime(){
-	g_realtime = true;
-	if (g_logFile != NULL) {
-		fprintf(g_logFile, (g_errorMessage)?"%s\n":"No errors!\n", g_errorMessage);
-	}
-}
 
 extern "C" __declspec(dllexport)
 void __cdecl ExitRealtime(){
 	g_realtime = false;
 	g_pEffect->stop();
+
+	if( g_pDevice )
+		g_pDevice->Unacquire();
+
+	// Release any DirectInput objects.
+	delete g_pEffect;
+	SAFE_RELEASE( g_pDevice );
+	SAFE_RELEASE( g_pDI );
 }
 
 extern "C" __declspec(dllexport)
-void __cdecl Startup(){
+	void __cdecl EnterRealtime(){
 	HRESULT hr;
 	DIPROPDWORD dipdw;
 
@@ -143,17 +144,15 @@ void __cdecl Startup(){
 	g_pDevice->Acquire();
 	g_pEffect = new rf2Effect(g_pDevice);
 
+	g_realtime = true;
+    if (g_logFile != NULL) {
+        fprintf(g_logFile, (g_errorMessage)?"%s\n":"No errors!\n", g_errorMessage);
+    }
+
 }
 
 extern "C" __declspec(dllexport)
 void __cdecl Shutdown(){
-	if( g_pDevice )
-		g_pDevice->Unacquire();
-
-	// Release any DirectInput objects.
-	delete g_pEffect;
-	SAFE_RELEASE( g_pDevice );
-	SAFE_RELEASE( g_pDI );
 	fclose(g_logFile);
 }
 
@@ -210,7 +209,8 @@ void __cdecl UpdateTelemetry(void* info) {
 
 		g_pEffect->slideWheels(slidingWheels | lockedSpinningWheels | rumbleLeft | rumbleRight, slideCoefficient);
 
-		g_pEffect->play();
+		g_pEffect->play()
+
 	}
 }
 
