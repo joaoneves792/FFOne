@@ -12,6 +12,7 @@ class rf2Effect {
 #define DEFAULT_PERIOD 35127000
 #define ENGINE_MIN_MAG 200
 #define ENGINE_MAX_MAG 2500
+#define SUSPENSION_MAX_MAG 10000
 #define FL_ANGLE 13500
 #define FR_ANGLE 22500
 #define RL_ANGLE  8000
@@ -35,6 +36,8 @@ protected:
     UCHAR slidingWheels = 0x0;
     double slideFactor = 0.0f;
     double enginePercent = 0.0f;
+    double suspensionDeflection = 0.0f;
+    long suspensionDirection = 0;
 private:
     void loadDefaults();
     void recomputeDirection();
@@ -42,6 +45,7 @@ public:
     rf2Effect(LPDIRECTINPUTDEVICE8 dev);
     ~rf2Effect();
     void setRPM(double rpm, double max);
+    void setDeflection(double deflection, long direction);
     void slideWheels(UCHAR wheels, double factor);
     int play();
     int stop();

@@ -13,7 +13,7 @@
 //#include <windows.h>
 // plugin information
 
-#define SLIDE_VELOCITY_THRESHOLD 1.2f //meters/second
+#define SLIDE_VELOCITY_THRESHOLD 5.5f //meters/second
 #define MAX_SLIDE_FORCE_AT 7.0f //meters/second
 #define WHEEL_LOCK_BELOW_PERCENTAGE 0.6f //percentage
 
@@ -22,6 +22,7 @@
 FILE*					g_logFile = nullptr;
 char*					g_logPath = nullptr;
 bool					g_realtime = false;
+bool                    g_resetSuspension = true;
 LPDIRECTINPUT8			g_pDI = nullptr;
 LPDIRECTINPUTDEVICE8	g_pDevice = nullptr;
 rf2Effect* 				g_pEffect = nullptr;
@@ -148,6 +149,7 @@ extern "C" __declspec(dllexport)
     if (g_logFile != NULL) {
         fprintf(g_logFile, (g_errorMessage)?"%s\n":"No errors!\n", g_errorMessage);
     }
+	g_resetSuspension = true;
 
 }
 
@@ -209,7 +211,42 @@ void __cdecl UpdateTelemetry(void* info) {
 
 		g_pEffect->slideWheels(slidingWheels | lockedSpinningWheels | rumbleLeft | rumbleRight, slideCoefficient);
 
-		g_pEffect->play()
+		//Suspension effects
+		static double restDeflection = 0.0f;
+
+        double maxDeflection = 0.0;
+        /*double deflectionSum = 0.0;
+        long suspensionDirection = 0;
+        static int dir[4] = {135, 225, 45, 315};*/
+        for(int i =0; i<4;i++){
+			double deflection = std::abs(telem->mWheel[i].mSuspensionDeflection);
+			double rideHeight = telem->mWheel[i].mRideHeight;
+			//We should be using max suspension travel distance, but that info is not available
+			//So we use ride height to normalize
+			//Reference are GT3 cars with avg 6cm ride height
+			const double normalizeCoef = 100*(0.06/rideHeight);
+			deflection *= normalizeCoef;
+
+			/*deflectionSum += deflection;
+			suspensionDirection += deflection*dir[i];*/
+
+			if(deflection > maxDeflection) {
+				maxDeflection = deflection;
+            }
+
+        }
+
+        //suspensionDirection = (suspensionDirection / deflectionSum)*1000;
+
+        if(g_resetSuspension){
+            g_resetSuspension = false;
+            restDeflection = maxDeflection;
+        }
+
+        g_pEffect->setDeflection(std::abs(maxDeflection-restDeflection), B_ANGLE);
+
+
+		g_pEffect->play();
 
 	}
 }

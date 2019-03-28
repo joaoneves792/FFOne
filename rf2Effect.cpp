@@ -9,14 +9,17 @@
 int rf2Effect::play() {
     static DWORD lastTime = 0;
     DWORD curTime = GetTickCount();
-    if((curTime-lastTime) > 25) {
+    if((curTime-lastTime) > 20) {
         lastTime = curTime;
 
         recomputeDirection();
 
-#define ENGINE_MAGNITUDE ( ((enginePercent*ENGINE_MAX_MAG)<ENGINE_MIN_MAG)?ENGINE_MIN_MAG:(enginePercent*ENGINE_MAX_MAG))
+        DWORD engineMagnitude = ((enginePercent*ENGINE_MAX_MAG)<ENGINE_MIN_MAG)?ENGINE_MIN_MAG:(enginePercent*ENGINE_MAX_MAG);
+        DWORD suspensionMagnitude (suspensionDeflection*SUSPENSION_MAX_MAG);
 
-        peff.dwMagnitude = ENGINE_MAGNITUDE + slideFactor*WHEEL_MAGNITUDE;
+
+
+        peff.dwMagnitude = ((engineMagnitude > suspensionMagnitude)?engineMagnitude:suspensionMagnitude) + slideFactor*WHEEL_MAGNITUDE;
         FAILED(self->SetParameters(&eff, DIEP_DIRECTION | DIEP_TYPESPECIFICPARAMS | DIEP_START | DIEP_DURATION));
     }
     return 0;
@@ -65,6 +68,11 @@ void rf2Effect::setRPM(double rpm, double max) {
     enginePercent = rpm/max;
 }
 
+void rf2Effect::setDeflection(double deflection, long direction) {
+    suspensionDeflection = deflection;
+    suspensionDirection = direction;
+}
+
 void rf2Effect::recomputeDirection() {
     //count how many wheels are sliding
     int count = 0;
@@ -99,8 +107,24 @@ void rf2Effect::recomputeDirection() {
         rglDirection[0] = (slidingWheels == (W_FL | W_RR))?F_ANGLE:rglDirection[0];
         return;
     }
-    //If none than set to regular
+    //If none are sliding then use suspension
+    //Dont really like suspension directional rumble...
+    /*if(suspensionDeflection > 0.1){
+        if(suspensionDirection > L_ANGLE && suspensionDirection < R_ANGLE){
+        //Fix so we dont abuse the trigger ffb
+            if(suspensionDirection < F_ANGLE)
+                rglDirection[0] = L_ANGLE;
+            else
+                rglDirection[0] = R_ANGLE;
+            return;
+        }
+        rglDirection[0] = suspensionDirection;
+        return;
+    }*/
+
+    //If none of the above than just fallback to center (Back)
     rglDirection[0] = B_ANGLE;
+
 }
 
 void rf2Effect::slideWheels(UCHAR wheels, double factor) {
